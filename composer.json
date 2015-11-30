@@ -1,0 +1,9 @@
+{
+  "autoload": {
+     "psr-4": { "Pathe\\": "app/Pathe"}
+   },
+    "require": {
+        "slim/slim": "^2.6",
+    "illuminate/database": "^5.1"
+    }
+}

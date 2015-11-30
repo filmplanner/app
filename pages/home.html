@@ -1,0 +1,85 @@
+<div class="top">
+  <div class="ui container">
+    <div class="row">
+      <span class="ui inverted yellow button align-right theater-button" ng-click="openModal()">{{ selectedTheater.name }}</span>
+      <div class="logo">
+        <img src="img/logo.png" alt="Pathe Planner">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="days">
+	<div class="ui container">
+		<table>
+			<tr>
+				<td ng-repeat="day in days"
+						ng-class="{active: selectedDate == day.date}"
+						ng-click="selectDate(day.date)">
+						{{ day.translation }}
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<div class="movies m-scene">
+	<div owl-carousel="movies">
+      <div class="item scene-element item-{{ item.id }}" ng-click="selectMovie(item)">
+				<img ng-src="{{ item.image }}" alt="{{ item.title }}">
+				<div class="mask">
+					<div class="content">
+						<span class="title">{{ item.title | limitTo: 23 }}</span>
+					</div>
+				</div>
+      </div>
+  </div>
+
+	<div class="make-planning">
+		<button class="massive ui yellow button" ng-show="selectedMovies.length > 0" ng-click="makePlanning()">
+			Maak planning
+		</button>
+	</div>
+
+	<div class="loading scene-element" ng-show="loading">
+		<div class='uil-default-css' style='-webkit-transform:scale(0.93)'>
+			<div style='top:80px;left:93px;width:14px;height:40px;background:#fdc229;-webkit-transform:rotate(0deg) translate(0,-60px);transform:rotate(0deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#fdc229;-webkit-transform:rotate(30deg) translate(0,-60px);transform:rotate(30deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#fdc229;-webkit-transform:rotate(60deg) translate(0,-60px);transform:rotate(60deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#fdc229;-webkit-transform:rotate(90deg) translate(0,-60px);transform:rotate(90deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#fdc229;-webkit-transform:rotate(120deg) translate(0,-60px);transform:rotate(120deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#fdc229;-webkit-transform:rotate(150deg) translate(0,-60px);transform:rotate(150deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#fdc229;-webkit-transform:rotate(180deg) translate(0,-60px);transform:rotate(180deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#fdc229;-webkit-transform:rotate(210deg) translate(0,-60px);transform:rotate(210deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#fdc229;-webkit-transform:rotate(240deg) translate(0,-60px);transform:rotate(240deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#fdc229;-webkit-transform:rotate(270deg) translate(0,-60px);transform:rotate(270deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#fdc229;-webkit-transform:rotate(300deg) translate(0,-60px);transform:rotate(300deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#fdc229;-webkit-transform:rotate(330deg) translate(0,-60px);transform:rotate(330deg) translate(0,-60px);border-radius:10px;position:absolute;'></div>
+		</div>
+	</div>
+
+	<div class="no-items scene-element" ng-show="movies.length < 1 && loading == false">
+		<h2>Geen data beschikbaar voor {{ selectedDate }}!</h2>
+		<p>Het kan zijn dat er nog geen filmdata beschikbaar is voor deze datum.</p><p>Neem dan contact op met <b>@WesleydeBruijn</b> op Twitter wanneer dit niet het geval is.</p>
+	</div>
+
+	<div class="ui small theater-modal modal">
+    <div class="header">
+      Bioscoop selecteren
+    </div>
+    <div class="content">
+      <div class="description">
+				<div class="ui form">
+				  <div class="grouped fields">
+				    <div class="field" ng-repeat="theater in theaters">
+				      <div class="ui radio checkbox"  ng-click="selectTheater(theater)">
+				        <input type="radio" name="selectedTheater" id="{{ theater.alias }}" ng-model="selectedTheater.alias" value="{{ theater.alias }}">
+				        <label for="{{ theater.alias }}">{{ theater.name }}</label>
+				      </div>
+				    </div>
+					</div>
+				</div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui cancel button">Sluiten</div>
+    </div>
+  </div>
+  <div class="ui small basic planning-modal modal">
+    <div class="ui icon header">
+      <i class="film icon"></i>
+      Wij maken nu je planning!
+    </div>
+    <div class="content">
+      <p><center><div class="ui active large inline loader"></div></center></p>
+    </div>
+  </div>
+</div>
