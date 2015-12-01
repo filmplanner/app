@@ -3,7 +3,7 @@
 /* Services */
 
 var patheServices = angular.module('patheServices', []);
-var urlBase = 'http://localhost/Patheplanner/app';
+var urlBase = 'http://localhost/PathePlanner/app';
 
 
 patheServices.factory('patheService', ['$http', function ($http) {
