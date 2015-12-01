@@ -12,7 +12,9 @@ class Day {
     for($i = 0; $i < self::$amountOfDays; $i ++) {
 			$object = new Day();
 			$object->date = date("d-m-Y", strtotime("+".$i." day"));
-			$object->translation = DayHelper::translate($i);
+			$dateTranslate = DayHelper::translate($i);
+      $object->translation =  $dateTranslate->translation;
+      $object->short = $dateTranslate->short;
 			$days[] = $object;
 		}
 		return json_encode($days);

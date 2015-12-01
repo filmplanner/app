@@ -15,7 +15,8 @@
 				<td ng-repeat="day in days"
 						ng-class="{active: selectedDate == day.date}"
 						ng-click="selectDate(day.date)">
-						{{ day.translation }}
+						<span class="mobile-hide">{{ day.translation }}</span>
+            <span class="mobile-show hide">{{ day.short }}</span>
 				</td>
 			</tr>
 		</table>
@@ -34,8 +35,8 @@
       </div>
   </div>
 
-	<div class="make-planning">
-		<button class="massive ui yellow button" ng-show="selectedMovies.length > 0" ng-click="makePlanning()">
+	<div class="make-planning scene-element" ng-class="{hide: movies.length < 1}">
+		<button class="massive ui yellow button" ng-class="{disabled: selectedMovies.length < 1}" ng-click="makePlanning()">
 			Maak planning
 		</button>
 	</div>
@@ -48,13 +49,10 @@
 
 	<div class="no-items scene-element" ng-show="movies.length < 1 && loading == false">
 		<h2>Geen data beschikbaar voor {{ selectedDate }}!</h2>
-		<p>Het kan zijn dat er nog geen filmdata beschikbaar is voor deze datum.</p><p>Neem dan contact op met <b>@WesleydeBruijn</b> op Twitter wanneer dit niet het geval is.</p>
+		<p>Het kan zijn dat er nog geen filmdata (meer) beschikbaar is voor deze datum.</p><p>Neem dan contact op met <b>@WesleydeBruijn</b> op Twitter wanneer dit niet het geval is.</p>
 	</div>
 
 	<div class="ui small theater-modal modal">
-    <div class="header">
-      Bioscoop selecteren
-    </div>
     <div class="content">
       <div class="description">
 				<div class="ui form">
@@ -73,12 +71,10 @@
       <div class="ui cancel button">Sluiten</div>
     </div>
   </div>
-  <div class="ui small basic planning-modal modal">
+  <div class="ui basic planning-modal modal">
     <div class="ui icon header">
       <i class="film icon"></i>
       Wij maken nu je planning!
-    </div>
-    <div class="content">
       <p><center><div class="ui active large inline loader"></div></center></p>
     </div>
   </div>

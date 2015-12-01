@@ -28,7 +28,7 @@ class Movie extends Eloquent {
                       ->join('movies', 'movies.id', '=', 'shows.movie_id')
                       ->where("shows.theater_id", $theater->id)
                       ->where("shows.date", date("Y-m-d", strtotime($date)))
-                      ->whereRaw('CONCAT(date, " ", time) > NOW()')
+                      ->whereRaw('CONCAT(date, " ", start) > NOW()')
                       ->groupBy('shows.movie_id')
                       ->orderByRaw('COUNT(shows.movie_id) desc')
                       ->get();

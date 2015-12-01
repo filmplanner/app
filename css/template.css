@@ -92,7 +92,7 @@ h3 {
 }
 
 .movies {
-  margin-left: 10px;
+  margin: 0px 10px;
 }
 
 .movies .item {
@@ -196,4 +196,14 @@ h3 {
 
 .make-planning {
   text-align: center;
+}
+
+.hide {
+  display: none !important;
+}
+
+@media screen and (min-width: 0px) and (max-width: 720px) {
+  .mobile-hide { display: none !important; }
+  .mobile-show { display: block !important;}
+  .make-planning button { width: 100%;}
 }

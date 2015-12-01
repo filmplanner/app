@@ -8,38 +8,46 @@ class DayHelper {
 	{
 		$day = date("l", strtotime("+".$dayIndex." day"));
 
-		// today & tomorrow
-		if($dayIndex == 0) {
-			return $translation = "Vandaag";
-		} elseif($dayIndex == 1) {
-			return $translation = "Morgen";
-		}
-
+		$obj = new \stdClass();
 		// translation day names
 		switch($day) {
 			case "Monday":
-				$translation = "Maandag";
+				$obj->translation = "Maandag";
+				$obj->short = "Ma";
 				break;
 			case "Tuesday":
-				$translation = "Dinsdag";
+				$obj->translation = "Dinsdag";
+				$obj->short = "Di";
 				break;
 			case "Wednesday":
-				$translation = "Woensdag";
+				$obj->translation = "Woensdag";
+				$obj->short = "Wo";
 				break;
 			case "Thursday":
-				$translation = "Donderdag";
+				$obj->translation = "Donderdag";
+				$obj->short = "Do";
 				break;
 			case "Friday":
-				$translation = "Vrijdag";
+				$obj->translation = "Vrijdag";
+				$obj->short = "Vr";
 				break;
 			case "Saturday":
-				$translation = "Zaterdag";
+				$obj->translation = "Zaterdag";
+				$obj->short = "Za";
 				break;
 			case "Sunday":
-				$translation = "Zondag";
+				$obj->translation = "Zondag";
+				$obj->short = "Zo";
 				break;
 		}
 
-		return $translation;
+		// today & tomorrow
+		if($dayIndex == 0) {
+			$obj->translation = "Vandaag";
+		} elseif($dayIndex == 1) {
+			$obj->translation = "Morgen";
+		}
+
+		return $obj;
 	}
 }

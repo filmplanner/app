@@ -52,13 +52,15 @@ class Crawler {
 
         foreach($times as $time)
         {
-          $timeString = substr(str_replace(" ", "", $time->plaintext), 0, 5);
+          $start = substr(str_replace(" ", "", $time->plaintext), 0, 5);
+          $end = self::calculateEndtime($start, $movie->duration);
 
           // store show object of movie
           $show = Show::where("theater_id", $theater->id)
                         ->where("movie_id", $movie->id)
                         ->where("date", $date)
-                        ->where("time", $timeString)
+                        ->where("start", $start)
+                        ->where("end", $end)
                         ->first();
 
           if($show == null) {
@@ -68,7 +70,8 @@ class Crawler {
           $show->movie_id = $movie->id;
           $show->theater_id = $theater->id;
           $show->date = $date;
-          $show->time = $timeString;
+          $show->start = $start;
+          $show->end = $end;
           $show->type = ($time->find("span", 1) != null) ? str_replace(" ", "", $time->find("span", 1)->plaintext) : "Normaal";
           $show->url = self::$BASE_URL . $time->getAttribute("href");
           $show->save();
@@ -116,21 +119,12 @@ class Crawler {
     return $minutes;
   }
 
+  private static function calculateEndtime($start, $minutes)
+  {
+    $start = new \DateTime("2015-11-28 " . $start);
+    $start->add(new \DateInterval('PT' . $minutes . 'M'));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    return $start->format('H:i');
+  }
 
 }
