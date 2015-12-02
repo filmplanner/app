@@ -1,5 +1,6 @@
 'use strict';
 
+var BASE_URL = "http://localhost/Patheplanner/"
 var MAX_MOVIE_AMOUNT = 5;
 var DEFAULT_THEATER = { id: 11, name: "Pathé Spuimarkt", alias: "spuimarkt"};
 
@@ -14,7 +15,7 @@ patheControllers.controller('HomeCtrl', ['$scope', '$location', '$cookies', 'pat
     $scope.days;
     $scope.loading;
 
-    $scope.selectedDate = getCurrentDay();
+    $scope.selectedDate = getDate();
     $scope.selectedTheater = $cookies.get('theater') ? JSON.parse($cookies.get('theater')) : DEFAULT_THEATER;
     $scope.selectedMovies = [];
 
@@ -47,6 +48,7 @@ patheControllers.controller('HomeCtrl', ['$scope', '$location', '$cookies', 'pat
     $scope.selectDate = function(date)
     {
       $scope.selectedDate = date;
+      $cookies.put('day', date);
     };
 
     $scope.selectTheater = function(theater)
@@ -105,6 +107,19 @@ patheControllers.controller('HomeCtrl', ['$scope', '$location', '$cookies', 'pat
       $scope.getMovies();
     });
 
+    function getDate()
+    {
+      if($cookies.get('day'))
+      {
+        var date = $cookies.get('day');
+        var parts = date.split("-");
+        var dateCheck = new Date(Number(parts[2]), Number(parts[1]) - 1, Number(parts[0]));
+        if(new Date(dateCheck) > new Date()) {
+          return date;
+        }
+      }
+      return getCurrentDay();
+    };
   }]);
 
 
@@ -114,17 +129,20 @@ patheControllers.controller('HomeCtrl', ['$scope', '$location', '$cookies', 'pat
       $scope.id = $routeParams.id;
       $scope.items;
       $scope.selectedItem;
+      $scope.baseUrl = BASE_URL;
 
       patheService.getResult($scope.id).success(function (response) {
         // set data
-        $scope.items = JSON.parse(response.data);
-        $scope.selectedItem = $scope.items[0];
+        if(response.data) {
+          $scope.items = JSON.parse(response.data);
+          $scope.selectedItem = $scope.items[0];
 
-        // set dropdown list
-        $('.planning.dropdown').dropdown();
-        $timeout(function() {
-          angular.element('.planning.dropdown .item:first').trigger('click');
-        }, 0);
+          // set dropdown list
+          $('.planning.dropdown').dropdown();
+          $timeout(function() {
+            angular.element('.planning.dropdown .item:first').trigger('click');
+          }, 0);
+        }
       });
 
       $scope.setPlanning = function(index) {

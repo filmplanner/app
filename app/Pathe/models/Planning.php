@@ -39,6 +39,8 @@ class Planning {
     // get all possible combinations of shows
     $combinations = self::getCombinations($cartesianProduct);
 
+    if(count($combinations) < 1) return false;
+
     // sort by show amount and waittime
     $combinations = self::sortByAmountAndWaittime($combinations);
 

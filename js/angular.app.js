@@ -20,6 +20,9 @@ patheApp.config(['$routeProvider', '$locationProvider',
       when('/planning/:id', {
         templateUrl: 'pages/result.html',
         controller: 'ResultCtrl'
+      }).when('/planning', {
+        templateUrl: 'pages/result.html',
+        controller: 'ResultCtrl'
       }).
       otherwise({
         redirectTo: '/home'
