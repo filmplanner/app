@@ -47,13 +47,14 @@ class Crawler {
     foreach($rows as $row)
     {
         $movie = self::getMovie($row);
+        $duration = self::calculateMinutes($row);
 
         $times = $row->find(".table-schedule .table-btn");
 
         foreach($times as $time)
         {
           $start = substr(str_replace(" ", "", $time->plaintext), 0, 5);
-          $end = self::calculateEndtime($start, $movie->duration);
+          $end = self::calculateEndtime($start, $duration);
 
           // store show object of movie
           $show = Show::where("theater_id", $theater->id)
@@ -72,6 +73,7 @@ class Crawler {
           $show->date = $date;
           $show->start = $start;
           $show->end = $end;
+          $show->duration = $duration;
           $show->type = ($time->find("span", 1) != null) ? str_replace(" ", "", $time->find("span", 1)->plaintext) : "Normaal";
           $show->url = self::$BASE_URL . $time->getAttribute("href");
           $show->save();
@@ -95,22 +97,22 @@ class Crawler {
 
     if($movie == null)
     {
-      $start = str_replace("Begin ", "", $html->find(".tooltip ul li", 1)->plaintext);
-      $end = str_replace("Afgelopen ", "", $html->find(".tooltip ul li", 2)->plaintext);
 
       // store movie object
       $movie = new Movie;
       $movie->title = $title;
       $movie->image = $html->find(".poster img", 0)->getAttribute("src");
-      $movie->duration = self::calculateMinutes($start, $end);
       $movie->save();
     }
 
     return $movie;
   }
 
-  private static function calculateMinutes($start, $end)
+  private static function calculateMinutes($html)
   {
+    $start = str_replace("Begin ", "", $html->find(".tooltip ul li", 1)->plaintext);
+    $end = str_replace("Afgelopen ", "", $html->find(".tooltip ul li", 2)->plaintext);
+
     $start = new \DateTime("2015-11-28 " . $start);
     $end = ($end < $start) ? new \DateTime("2015-11-29 " . $end) : new \DateTime("2015-11-28 " . $end);
 

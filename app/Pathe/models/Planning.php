@@ -4,11 +4,13 @@ namespace Pathe\Models;
 use Pathe\Models\Movie;
 use Pathe\Models\Show;
 
+// TODO: Nachtvoorstellingen zijn nog mogelijk door elkaar
+// TODO: Algoritme drastisch sneller maken
 class Planning {
 
  /**
  *
- * Returns array of 5 possible movie combinations
+ * Returns array of the best 5 possible movie combinations
  *
  * @param     int     $theaterId Identification of selected theater
  * @param     string  $date Date of selected day
@@ -31,20 +33,30 @@ class Planning {
     }
 
     // get all combinations between shows (cartesian product)
-    $cartesianProduct = self::sortByStartTime((self::getCartesianProductOf($array)));
+    $cartesianProduct = self::getCartesianProductOf($array);
 
+    // get all possible combinations of shows
+    $combinations = self::getCombinations($cartesianProduct);
 
+    // sort by show amount and waittime
+    $combinations = self::sortByAmountAndWaittime($combinations);
+
+    // get best 5 combinations
+    $result = array_slice($combinations, 0, 5, true);
+
+    return json_encode($result);
   }
 
   /**
   *
-  * Returns the cartesian product of a 2D array
+  * Returns the cartesian product of a 2D array (default cartesian product method)
   *
   * @param     array     $arrays 2D array of movie => shows
   * @return    array
   *
   */
-  public static function getCartesianProductOf($arrays) {
+  private static function getCartesianProductOf($arrays)
+  {
     $result = array();
     $keys = array_keys($arrays);
     $reverse_keys = array_reverse($keys);
@@ -66,18 +78,132 @@ class Planning {
         }
       }
     }
+    return $result;
+  }
+
+  /**
+  *
+  * Filters out all bad combinations of shows and returns all possible combinations
+  *
+  * @param     array     $arrays Cartesian product of all shows of selected movies
+  * @return    array
+  *
+  */
+  private static function getCombinations($arrays)
+  {
+    $results = array();
+
+    foreach($arrays as $shows)
+    {
+      // sort array by show start
+      $shows = self::sortByStartTime($shows);
+
+      // check if times do not overlap eachother
+      $result["shows"] = self::checkTimes($shows);
+
+      // set waittime and identifier
+      $id = "";
+      $waitTime = 0;
+      foreach($result["shows"] as $show) {
+          $id = $id . "M" . $show['id'];
+          $waitTime += $show['waittime'];
+      }
+
+      // set result
+      $result["id"] = $id;
+      $result["waittime"] = $waitTime;
+      $result["amount"] = count($result["shows"]);
+
+      // put in results when amount of movies is greater then 1 and not already is in array
+      if($result["amount"] > 1 && !self::search_array($result["id"], $results)) {
+        $results[] = $result;
+      }
+    }
     return $results;
   }
 
-  public static function sortByStartTime($arrays)
+  /**
+  *
+  * Filters out all bad combinations of shows and returns all possible combinations
+  *
+  * @param     array     $arrays Cartesian product of all shows of selected movies
+  * @return    array
+  *
+  */
+  private static function checkTimes($array, $index = 0)
   {
-    foreach($result as $r) {
-        foreach ($r as $key => $show) {
-            $sort[$key]  = $show["start"];
-        }
+    $array[$index]["waittime"] = 0;
 
-        array_multisort($sort, SORT_ASC, $r);
-        $results[] = $r;
+    if(array_key_exists($index + 1, $array) && is_array($array[$index + 1])) {
+        // get next show in array
+        $next = $array[$index + 1];
+        // check if show time does not overlap
+        if($next["start"] < $array[$index]["end"]) {
+            // delete next show from array
+            unset($array[$index + 1]);
+            $array = array_values($array);
+            return self::checkTimes($array, $index);
+        } else {
+            // set waittime and identification
+            $array[$index]["waittime"] = self::getWaitTime($array[$index]["end"], $next["start"]);
+
+            $array = array_values($array);
+            return self::checkTimes($array, $index + 1);
+        }
     }
+
+    return $array;
   }
+
+  /**
+  *
+  * Sort array by start time of show
+  *
+  * @param     array     $array Array of shows
+  * @return    array
+  *
+  */
+  private static function sortByStartTime($array)
+  {
+    foreach ($array as $key => $row) {
+        $sort[$key]  = $row['start'];
+    }
+
+    array_multisort($sort, SORT_ASC, $array);
+    return $array;
+  }
+
+  public static function sortByAmountAndWaittime($array)
+  {
+    foreach ($array as $key => $row) {
+      $amounts[$key] = $row["amount"];
+      $waittimes[$key]  = $row["waittime"];
+    }
+
+    array_multisort($amounts, SORT_DESC, $waittimes, SORT_ASC, $array);
+    return $array;
+  }
+
+  private static function getWaitTime($end, $start)
+  {
+    $end = new \DateTime("2015-11-28 " . $end);
+    $start = new \DateTime("2015-11-28 " . $start);
+
+    $minutes = ($start->diff($end)->format("%h%") * 60) + $start->diff($end)->format("%i%");
+
+    return $minutes;
+  }
+
+  public static function search_array($needle, $haystack)
+  {
+      if(in_array($needle, $haystack, true)) {
+           return true;
+      }
+      foreach($haystack as $element) {
+           if(is_array($element) && self::search_array($needle, $element))
+                return true;
+      }
+    return false;
+ }
+
 }
