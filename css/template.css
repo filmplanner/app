@@ -29,10 +29,6 @@ h3 {
   float: right;
 }
 
-.logo {
-  text-align: center;
-}
-
 .top {
   background: #0f0f0f;
   position: relative;
@@ -245,8 +241,14 @@ h3 {
   font-size: 30px;
 }
 
+.dropdown.planning {
+  margin-top: 15px;
+}
+
 @media screen and (min-width: 0px) and (max-width: 720px) {
   .mobile-hide { display: none !important; }
   .mobile-show { display: block !important;}
   .make-planning button { width: 100%;}
+  .logo { display: none !important; }
+  .dropdown.planning, .theater-button { float: none; width: 100%; margin: 0 !important; }
 }

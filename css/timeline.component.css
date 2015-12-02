@@ -142,6 +142,9 @@
 }
 
 @media screen and (max-width: 47.2em) {
+	h1 {
+		font-size: 18px;
+	}
 	.cbp_tmtimeline:before {
 		display: none;
 	}
@@ -157,7 +160,7 @@
 	}
 
 	.cbp_tmlabel img {
-		height: 150px;
+		height: 135px;
 	}
 
 	.cbp_tmtimeline > li .cbp_tmlabel {
@@ -187,4 +190,6 @@
 		margin: -55px 5px 0 0px;
 		display: none;
 	}
+	.cbp_tmlabel .white.button { font-size: 14px; padding: 10px 15px;}
+	.cbp_tmtimeline > li .cbp_tmlabel h2 { font-size: 20px;}
 }

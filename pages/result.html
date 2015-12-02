@@ -1,18 +1,6 @@
 <div class="top">
   <div class="ui container">
     <div class="row">
-      <div class="logo">
-        <img src="img/logo.png" alt="Pathe Planner">
-      </div>
-    </div>
-  </div>
-</div>
-<div class="heading">
-	<div class="ui container grid">
-    <div class="sixteen wide tablet ten wide computer column">
-      <h1>Film planning voor <span>{{ selectedItem.date }}</span></h1>
-    </div>
-    <div class="sixteen wide tablet six wide computer column">
       <div class="ui floating labeled icon dropdown planning button yellow">
         <i class="film icon"></i>
         <span class="text">Selecteer planning</span>
@@ -23,15 +11,27 @@
           <div class="divider"></div>
           <div class="item"
               ng-repeat="(index, item) in items"
-  						ng-click="setPlanning(index)">
+              ng-click="setPlanning(index)">
             <span class="description">{{ item.shows.length }} films</span>
             <span class="text">Planning #{{ index + 1 }}</span>
           </div>
         </div>
       </div>
+      <div class="logo">
+        <img src="img/logo.png" alt="Pathe Planner">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="heading">
+	<div class="ui container grid">
+    <div class="sixteen wide column">
+      <h1>Film planning voor <span>{{ selectedItem.date }}</span></h1>
     </div>
 	</div>
 </div>
+
 <div class="ui container grid">
   <div class="sixteen wide tablet twelve wide computer column">
     <ul class="cbp_tmtimeline">
@@ -49,6 +49,7 @@
     	</li>
     </ul>
   </div>
+
   <div class="sixteen wide tablet four wide computer column">
     <div class="ui cards share-with-friends">
       <div class="card">
@@ -58,7 +59,7 @@
           <div class="description">
             <div class="ui action input">
               <input type="text" id="copy" value="http://localhost/#/Patheplanner/#/planning/{{ id }}">
-              <button class="ui icon yellow button" onclick="copyToClipboard('#copy')">
+              <button class="ui icon yellow button">
                 <i class="copy icon"></i>
               </button>
             </div>
@@ -71,4 +72,5 @@
       </div>
     </div>
   </div>
+
 </div>
