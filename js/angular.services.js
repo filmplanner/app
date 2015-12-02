@@ -24,7 +24,11 @@ patheServices.factory('patheService', ['$http', function ($http) {
 
     patheService.makePlanning = function(data) {
       return $http.post(urlBase + '/makePlanning', data);
-    }
+    };
+
+    patheService.getResult = function(id) {
+      return $http.get(urlBase + '/getResult/'+ id);
+    };
 
     return patheService;
 

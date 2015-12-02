@@ -1,0 +1,74 @@
+<div class="top">
+  <div class="ui container">
+    <div class="row">
+      <div class="logo">
+        <img src="img/logo.png" alt="Pathe Planner">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="heading">
+	<div class="ui container grid">
+    <div class="sixteen wide tablet ten wide computer column">
+      <h1>Film planning voor <span>{{ selectedItem.date }}</span></h1>
+    </div>
+    <div class="sixteen wide tablet six wide computer column">
+      <div class="ui floating labeled icon dropdown planning button yellow">
+        <i class="film icon"></i>
+        <span class="text">Selecteer planning</span>
+        <div class="menu">
+          <div class="header">
+            Selecteer een planning
+          </div>
+          <div class="divider"></div>
+          <div class="item"
+              ng-repeat="(index, item) in items"
+  						ng-click="setPlanning(index)">
+            <span class="description">{{ item.shows.length }} films</span>
+            <span class="text">Planning #{{ index + 1 }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+	</div>
+</div>
+<div class="ui container grid">
+  <div class="sixteen wide tablet twelve wide computer column">
+    <ul class="cbp_tmtimeline">
+    	<li ng-repeat="show in selectedItem.shows" class="{{ show.type }}">
+    		<time class="cbp_tmtime"><span>{{ selectedItem.date }}</span> <span>{{ show.start }}</span></time>
+    		<div class="cbp_tmicon"><i class="film icon"></i></div>
+    		<div class="cbp_tmlabel">
+          <img alt="Spectre" ng-src="{{ show.movie.image }}">
+    			<h2>{{ show.movie.title }}</h2>
+          <div class="ui horizontal label large">{{ show.type }}</div>
+    			<p><b>{{ show.theater.name }}</b><br />
+            Afgelopen om <b>{{ show.end }}</b></p>
+          <a href="{{ show.url }}" target="_blank" class="ui inverted white button">Tickets kopen</a>
+    		</div>
+    	</li>
+    </ul>
+  </div>
+  <div class="sixteen wide tablet four wide computer column">
+    <div class="ui cards share-with-friends">
+      <div class="card">
+        <div class="content">
+          <div class="header">Delen met je vrienden</div>
+          <div class="meta">Via een URL of social media</div>
+          <div class="description">
+            <div class="ui action input">
+              <input type="text" id="copy" value="http://localhost/#/Patheplanner/#/planning/{{ id }}">
+              <button class="ui icon yellow button" onclick="copyToClipboard('#copy')">
+                <i class="copy icon"></i>
+              </button>
+            </div>
+            <div class="social-icons">
+              <p><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A//localhost/Patheplanner/%23/planning/{{ id }}" target="_blank"><i class="facebook icon"></i> Deel via Facebook</a></p>
+              <p><a href="https://twitter.com/home?status=Bekijk%20mijn%20film%20planning%20voor%2{{ selectedItem.date }}%20op%20http%3A//localhost/Patheplanner/%23/planning/{{ id }}" target="_blank"><i class="twitter icon"></i> Deel via Twitter</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

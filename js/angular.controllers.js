@@ -1,12 +1,13 @@
 'use strict';
 
+var MAX_MOVIE_AMOUNT = 5;
+var DEFAULT_THEATER = { id: 11, name: "Pathé Spuimarkt", alias: "spuimarkt"};
+
 /* Controllers */
-
 var patheControllers = angular.module('patheControllers', []);
-var MAX_MOVIE_AMOUNT = 6;
 
-patheControllers.controller('HomeCtrl', ['$scope', '$cookies', 'patheService',
-  function($scope, $cookies, patheService)
+patheControllers.controller('HomeCtrl', ['$scope', '$location', '$cookies', 'patheService',
+  function($scope, $location, $cookies, patheService)
   {
   	$scope.movies;
     $scope.theaters;
@@ -14,9 +15,10 @@ patheControllers.controller('HomeCtrl', ['$scope', '$cookies', 'patheService',
     $scope.loading;
 
     $scope.selectedDate = getCurrentDay();
-    $scope.selectedTheater = $cookies.get('theater') ? JSON.parse($cookies.get('theater')) : { name: "Pathé Spuimarkt", alias: "spuimarkt"};
+    $scope.selectedTheater = $cookies.get('theater') ? JSON.parse($cookies.get('theater')) : DEFAULT_THEATER;
     $scope.selectedMovies = [];
 
+    // Retrieve data
     patheService.getDays().success(function (response) {
       $scope.days = response;
     });
@@ -25,10 +27,6 @@ patheControllers.controller('HomeCtrl', ['$scope', '$cookies', 'patheService',
       $scope.theaters = response;
     });
 
-
-    $scope.openModal = function() {
-      $('.theater-modal').modal('show');
-    }
 
     $scope.getMovies = function()
     {
@@ -46,11 +44,13 @@ patheControllers.controller('HomeCtrl', ['$scope', '$cookies', 'patheService',
       }
     };
 
-    $scope.selectDate = function(date) {
+    $scope.selectDate = function(date)
+    {
       $scope.selectedDate = date;
     };
 
-    $scope.selectTheater = function(theater) {
+    $scope.selectTheater = function(theater)
+    {
       $scope.selectedTheater = theater;
 
       // save theater in cookie
@@ -62,7 +62,8 @@ patheControllers.controller('HomeCtrl', ['$scope', '$cookies', 'patheService',
       $scope.getMovies();
     };
 
-    $scope.selectMovie = function(movie) {
+    $scope.selectMovie = function(movie)
+    {
       var index = $scope.selectedMovies.indexOf(movie);
       var size = $scope.selectedMovies.length;
 
@@ -78,7 +79,8 @@ patheControllers.controller('HomeCtrl', ['$scope', '$cookies', 'patheService',
         }
     };
 
-    $scope.makePlanning = function() {
+    $scope.makePlanning = function()
+    {
       $('.planning-modal').modal('setting', 'closable', false).modal('show');
 
       var data = {
@@ -88,12 +90,45 @@ patheControllers.controller('HomeCtrl', ['$scope', '$cookies', 'patheService',
       };
 
       patheService.makePlanning(data).success(function (response) {
-        console.dir(response);
+        var id = response;
+        $location.path('planning/' + id);
+        $('.planning-modal').modal('hide');
       });
     }
 
-    $scope.$watch('selectedDate', function() {
+    $scope.openModal = function() {
+      $('.theater-modal').modal('show');
+    }
+
+    $scope.$watch('selectedDate', function()
+    {
       $scope.getMovies();
     });
 
   }]);
+
+
+  patheControllers.controller('ResultCtrl', ['$scope', '$routeParams', '$timeout', 'patheService',
+    function($scope, $routeParams, $timeout, patheService)
+    {
+      $scope.id = $routeParams.id;
+      $scope.items;
+      $scope.selectedItem;
+
+      patheService.getResult($scope.id).success(function (response) {
+        // set data
+        $scope.items = JSON.parse(response.data);
+        $scope.selectedItem = $scope.items[0];
+
+        // set dropdown list
+        $('.planning.dropdown').dropdown();
+        $timeout(function() {
+          angular.element('.planning.dropdown .item:first').trigger('click');
+        }, 0);
+      });
+
+      $scope.setPlanning = function(index) {
+        $scope.selectedItem = $scope.items[index];
+      };
+
+    }]);

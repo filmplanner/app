@@ -4,19 +4,18 @@ namespace Pathe\Models;
 use Pathe\Models\Movie;
 use Pathe\Models\Show;
 
-// TODO: Nachtvoorstellingen zijn nog mogelijk door elkaar
 // TODO: Algoritme drastisch sneller maken
 class Planning {
 
  /**
  *
- * Returns array of the best 5 possible movie combinations
+ * Returns id of planning result
  *
  * @param     int     $theaterId Identification of selected theater
  * @param     string  $date Date of selected day
  * @param     array   $movies List of selected movies
  * @param     object  $app Instance to access db
- * @return    array
+ * @return    id
  *
  */
   public static function get($theaterId, $date, $movies)
@@ -24,7 +23,9 @@ class Planning {
     foreach($movies as $movie)
     {
       // get all shows of movie by theater and date
-      $array[] = Show::where("theater_id", $theaterId)
+      $array[] = Show::with("movie")
+                        ->with("theater")
+                        ->where("theater_id", $theaterId)
                         ->where("date", date("Y-m-d", strtotime($date)))
                         ->where("movie_id", $movie->id)
                         ->whereRaw('CONCAT(date, " ", start) > NOW()')
@@ -42,9 +43,14 @@ class Planning {
     $combinations = self::sortByAmountAndWaittime($combinations);
 
     // get best 5 combinations
-    $result = array_slice($combinations, 0, 5, true);
+    $data = array_slice($combinations, 0, 5, true);
 
-    return json_encode($result);
+    // store result
+    $result = new Result;
+    $result->data = json_encode($data);
+    $result->save();
+
+    return $result->id;
   }
 
   /**
@@ -101,7 +107,7 @@ class Planning {
       // check if times do not overlap eachother
       $result["shows"] = self::checkTimes($shows);
 
-      // set waittime and identifier
+      // set date, waittime and identifier
       $id = "";
       $waitTime = 0;
       foreach($result["shows"] as $show) {
@@ -111,6 +117,7 @@ class Planning {
 
       // set result
       $result["id"] = $id;
+      $result["date"] = date("d-m-Y", strtotime($result["shows"][0]["date"]));
       $result["waittime"] = $waitTime;
       $result["amount"] = count($result["shows"]);
 
@@ -138,7 +145,7 @@ class Planning {
         // get next show in array
         $next = $array[$index + 1];
         // check if show time does not overlap
-        if($next["start"] < $array[$index]["end"]) {
+        if($next["start"] < $array[$index]["end"] || $array[$index]["start"] > date("H:i:s", strtotime('- '.((int)$array[$index]["duration"]).' minutes', strtotime($next["start"])))) {
             // delete next show from array
             unset($array[$index + 1]);
             $array = array_values($array);

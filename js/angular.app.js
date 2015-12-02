@@ -17,6 +17,10 @@ patheApp.config(['$routeProvider',
         templateUrl: 'pages/home.html',
         controller: 'HomeCtrl'
       }).
+      when('/planning/:id', {
+        templateUrl: 'pages/result.html',
+        controller: 'ResultCtrl'
+      }).
       otherwise({
         redirectTo: '/home'
       });

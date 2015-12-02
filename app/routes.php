@@ -4,6 +4,7 @@
   use Pathe\Models\Theater;
   use Pathe\Models\Movie;
   use Pathe\Models\Planning;
+  use Pathe\Models\Result;
 
   $app->get("/getDays", function() {
     echo Day::all();
@@ -20,4 +21,8 @@
   $app->post("/makePlanning", function() use ($app) {
     $data = json_decode($app->request->getBody());
     echo Planning::get($data->theaterId, $data->date, $data->movies);
+  });
+
+  $app->get("/getResult/:id", function($id) {
+    echo Result::find($id)->toJson();
   });

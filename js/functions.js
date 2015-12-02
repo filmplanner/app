@@ -10,7 +10,6 @@ $(document).on("click", ".days td", function() {
 	$(this).addClass("active");
 });
 
-
 function getCurrentDay() {
   var today = new Date();
   var dd = today.getDate();

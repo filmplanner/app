@@ -5,8 +5,12 @@
 }
 html, body {
   background: #ffffff;
-
 }
+
+h1 span {
+  color: #ffffff;
+}
+
 h2 {
   font-family: 'Oswald', sans-serif;
   font-size: 32px;
@@ -25,16 +29,28 @@ h3 {
   float: right;
 }
 
+.logo {
+  text-align: center;
+}
+
 .top {
   background: #0f0f0f;
+  position: relative;
   width: 100%;
   padding: 20px;
-  z-index: 1;
 }
 
 .days {
   background: #fdc229;
   margin-bottom: 10px;
+}
+
+.heading {
+  background: #fdc229;
+}
+
+.heading .grid {
+  margin: 0;
 }
 
 .days table {
@@ -200,6 +216,33 @@ h3 {
 
 .hide {
   display: none !important;
+}
+
+.dropdown.planning {
+  float: right;
+}
+
+.share-with-friends {
+  width: 100%;
+  margin: 0 !important;
+  margin-top: 30px !important;
+}
+
+.share-with-friends .card {
+  width: 100% !important;
+  margin: 0 !important;
+}
+.share-with-friends .social-icons {
+  margin-top: 20px;
+}
+.share-with-friends .social-icons a {
+  color: #fdc229;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.share-with-friends .social-icons i {
+  font-size: 30px;
 }
 
 @media screen and (min-width: 0px) and (max-width: 720px) {
