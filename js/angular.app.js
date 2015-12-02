@@ -10,8 +10,8 @@ var patheApp = angular.module('patheApp', [
   'angular-owl-carousel'
 ]);
 
-patheApp.config(['$routeProvider',
-  function($routeProvider) {
+patheApp.config(['$routeProvider', '$locationProvider',
+  function($routeProvider, $locationProvider) {
     $routeProvider.
       when('/home', {
         templateUrl: 'pages/home.html',
@@ -23,5 +23,9 @@ patheApp.config(['$routeProvider',
       }).
       otherwise({
         redirectTo: '/home'
+      });
+      $locationProvider.html5Mode({
+        enabled: true,
+        requireBase: false
       });
   }]);
