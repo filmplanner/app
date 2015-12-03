@@ -3,20 +3,10 @@
 namespace Pathe\Models;
 use Pathe\Models\Movie;
 use Pathe\Models\Show;
+use Pathe\Helpers\ArrayHelper;
 
 class Planning {
 
- /**
- *
- * Returns id of planning result
- *
- * @param     int     $theaterId Identification of selected theater
- * @param     string  $date Date of selected day
- * @param     array   $movies List of selected movies
- * @param     object  $app Instance to access db
- * @return    id
- *
- */
   public static function get($theaterId, $date, $movies)
   {
     foreach($movies as $movie)
@@ -33,7 +23,7 @@ class Planning {
     }
 
     // get all combinations between shows (cartesian product)
-    $cartesianProduct = self::getCartesianProductOf($array);
+    $cartesianProduct = ArrayHelper::getCartesianProductOf($array);
 
     // get all possible combinations of shows
     $combinations = self::getCombinations($cartesianProduct);
@@ -41,7 +31,7 @@ class Planning {
     if(count($combinations) < 1) return false;
 
     // sort by show amount and waittime
-    $combinations = self::sortByAmountAndWaittime($combinations);
+    $combinations = ArrayHelper::orderBy($combinations, "amount", SORT_DESC, "waittime", SORT_ASC);
 
     // get best 5 combinations
     $data = array_slice($combinations, 0, 5, true);
@@ -54,48 +44,6 @@ class Planning {
     return $result->id;
   }
 
-  /**
-  *
-  * Returns the cartesian product of a 2D array (default cartesian product method)
-  *
-  * @param     array     $arrays 2D array of movie => shows
-  * @return    array
-  *
-  */
-  private static function getCartesianProductOf($arrays)
-  {
-    $result = array();
-    $keys = array_keys($arrays);
-    $reverse_keys = array_reverse($keys);
-    $size = intval(count($arrays) > 0);
-    foreach ($arrays as $array) {
-      $size *= count($array);
-    }
-    for ($i = 0; $i < $size; $i ++) {
-      $result[$i] = array();
-      foreach ($keys as $j) {
-        $result[$i][$j] = current($arrays[$j]);
-      }
-      foreach ($reverse_keys as $j) {
-        if (next($arrays[$j])) {
-          break;
-        }
-        elseif (isset ($arrays[$j])) {
-          reset($arrays[$j]);
-        }
-      }
-    }
-    return $result;
-  }
-
-  /**
-  *
-  * Filters out all bad combinations of shows and returns all possible combinations
-  *
-  * @param     array     $arrays Cartesian product of all shows of selected movies
-  * @return    array
-  *
-  */
   private static function getCombinations($arrays)
   {
     $results = array();
@@ -103,7 +51,7 @@ class Planning {
     foreach($arrays as $shows)
     {
       // sort array by show start
-      $shows = self::sortByStartTime($shows);
+      $shows = ArrayHelper::orderBy($shows, "start", SORT_ASC);
 
       // check if times do not overlap eachother
       $result["shows"] = self::checkTimes($shows);
@@ -123,21 +71,13 @@ class Planning {
       $result["amount"] = count($result["shows"]);
 
       // put in results when amount of movies is greater then 1 and not already is in array
-      if($result["amount"] > 1 && !self::search_array($result["id"], $results)) {
+      if($result["amount"] > 1 && !ArrayHelper::multiSearch($result["id"], $results)) {
         $results[] = $result;
       }
     }
     return $results;
   }
 
-  /**
-  *
-  * Filters out all bad combinations of shows and returns all possible combinations
-  *
-  * @param     array     $arrays Cartesian product of all shows of selected movies
-  * @return    array
-  *
-  */
   private static function checkTimes($array, $index = 0)
   {
     $array[$index]["waittime"] = 0;
@@ -163,35 +103,6 @@ class Planning {
     return $array;
   }
 
-  /**
-  *
-  * Sort array by start time of show
-  *
-  * @param     array     $array Array of shows
-  * @return    array
-  *
-  */
-  private static function sortByStartTime($array)
-  {
-    foreach ($array as $key => $row) {
-        $sort[$key]  = $row['start'];
-    }
-
-    array_multisort($sort, SORT_ASC, $array);
-    return $array;
-  }
-
-  public static function sortByAmountAndWaittime($array)
-  {
-    foreach ($array as $key => $row) {
-      $amounts[$key] = $row["amount"];
-      $waittimes[$key]  = $row["waittime"];
-    }
-
-    array_multisort($amounts, SORT_DESC, $waittimes, SORT_ASC, $array);
-    return $array;
-  }
-
   private static function getWaitTime($end, $start)
   {
     $end = new \DateTime("2015-11-28 " . $end);
@@ -201,17 +112,5 @@ class Planning {
 
     return $minutes;
   }
-
-  public static function search_array($needle, $haystack)
-  {
-      if(in_array($needle, $haystack, true)) {
-           return true;
-      }
-      foreach($haystack as $element) {
-           if(is_array($element) && self::search_array($needle, $element))
-                return true;
-      }
-    return false;
- }
 
 }
