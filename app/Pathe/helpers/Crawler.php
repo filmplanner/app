@@ -1,9 +1,6 @@
 <?php
 namespace Pathe\Helpers;
 
-ini_set('max_execution_time', 300);
-
-use Pathe\Helpers\Curl;
 use Pathe\Models\Theater;
 use Pathe\Models\Movie;
 use Pathe\Models\Show;
@@ -13,18 +10,19 @@ class Crawler {
 
   public static $BASE_URL = "http://www.pathe.nl";
 
+  // TODO: Testen of deze werkt
   public static function getTheaters()
   {
-    $html = Curl::get(self::$BASE_URL . "/bioscoopagenda");
+    $html = htmlqp(self::$BASE_URL . "/bioscoopagenda");
 
     // rows to get data from each theater
     $rows = $html->find(".module-filter dd ul li a");
     foreach($rows as $row)
     {
-    	$alias = str_replace("/bioscoopagenda?cinema=", "", $row->getAttribute("href"));
-    	$detailHtml = Curl::get(self::$BASE_URL . "/bioscoop/" . $alias);
-    	$name = $detailHtml->find(".cinema-visual-details h1", 0)->plaintext;
-    	$city = $detailHtml->find(".cinema-visual-details h2", 0)->plaintext;
+    	$alias = str_replace("/bioscoopagenda?cinema=", "", $row->attr("href"));
+    	$detailHtml = htmlqp(self::$BASE_URL . "/bioscoop/" . $alias);
+    	$name = $detailHtml->find(".cinema-visual-details h1")->first()->text();
+    	$city = $detailHtml->find(".cinema-visual-details h2")->first()->text();
 
       // store object of theater
     	$theater = new Theater;
@@ -37,7 +35,7 @@ class Crawler {
 
   public static function getShows($theater, $date)
   {
-    $html = Curl::get(self::$BASE_URL . "/bioscoop/". $theater->alias ."/". $date);
+    $html = htmlqp(self::$BASE_URL . "/bioscoop/". $theater->alias ."/". $date);
     $rows = $html->find(".overview-movies .schedule-movie");
 
     $date = date("Y-m-d", strtotime($date));
@@ -51,7 +49,7 @@ class Crawler {
 
         foreach($times as $time)
         {
-          $start = substr(str_replace(" ", "", $time->plaintext), 0, 5);
+          $start = substr(trim($time->text()), 0, 5);
           $end = self::calculateEndtime($start, $duration);
 
           // store show object of movie
@@ -72,8 +70,8 @@ class Crawler {
           $show->start = $start;
           $show->end = $end;
           $show->duration = $duration;
-          $show->type = ($time->find("span", 1) != null) ? str_replace(" ", "", $time->find("span", 1)->plaintext) : "Normaal";
-          $show->url = self::$BASE_URL . $time->getAttribute("href");
+          $show->type = ($time->find("span:nth-child(2)")->text() != null) ? trim($time->find("span:nth-child(2)")->text()) : "Normaal";
+          $show->url = self::$BASE_URL . $time->attr("href");
           $show->save();
         }
     }
@@ -88,7 +86,7 @@ class Crawler {
 
   public static function getMovie($html)
   {
-    $title = $html->find(".poster img", 0)->getAttribute("alt");
+    $title = $html->find(".poster img")->first()->attr("alt");
 
     // check if movie exists in database
     $movie = Movie::where("title", $title)->first();
@@ -99,7 +97,7 @@ class Crawler {
       // store movie object
       $movie = new Movie;
       $movie->title = $title;
-      $movie->image = $html->find(".poster img", 0)->getAttribute("src");
+      $movie->image = $html->find(".poster img")->first()->attr("src");
       $movie->save();
     }
 
@@ -108,8 +106,8 @@ class Crawler {
 
   private static function calculateMinutes($html)
   {
-    $start = str_replace("Begin ", "", $html->find(".tooltip ul li", 1)->plaintext);
-    $end = str_replace("Afgelopen ", "", $html->find(".tooltip ul li", 2)->plaintext);
+    $start = str_replace("Begin ", "", $html->find(".tooltip ul li:nth-child(2)")->first()->text());
+    $end = str_replace("Afgelopen ", "", $html->find(".tooltip ul li:nth-child(3)")->first()->text());
 
     $start = new \DateTime("2015-11-28 " . $start);
     $end = ($end < $start) ? new \DateTime("2015-11-29 " . $end) : new \DateTime("2015-11-28 " . $end);

@@ -4,6 +4,7 @@
    },
     "require": {
         "slim/slim": "^2.6",
-    "illuminate/database": "^5.1"
+        "illuminate/database": "^5.1",
+        "querypath/QueryPath": ">=3.0.0"
     }
 }
