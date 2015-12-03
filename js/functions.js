@@ -27,3 +27,12 @@ function getCurrentDay() {
   today = dd+'-'+mm+'-'+yyyy;
   return today;
 }
+
+function copyToClipboard() {
+  var $temp = $("<input>")
+   $("body").append($temp);
+   console.log();
+   $temp.val($("#copy").val()).select();
+   document.execCommand("copy");
+   $temp.remove();
+}

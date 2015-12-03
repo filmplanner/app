@@ -9,7 +9,6 @@ use Pathe\Models\Movie;
 use Pathe\Models\Show;
 use Pathe\Models\Log;
 
-// TODO: Curl class performance verbeteren / andere Curl class gebruiken
 class Crawler {
 
   public static $BASE_URL = "http://www.pathe.nl";
@@ -36,7 +35,6 @@ class Crawler {
     }
   }
 
-  // TODO: Sneak preview film (ID: 25) heeft niet altijd dezelfde speelduur
   public static function getShows($theater, $date)
   {
     $html = Curl::get(self::$BASE_URL . "/bioscoop/". $theater->alias ."/". $date);

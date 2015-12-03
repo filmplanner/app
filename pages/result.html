@@ -49,7 +49,7 @@
       		<time class="cbp_tmtime"><span>{{ selectedItem.date }}</span> <span>{{ show.start }}</span></time>
       		<div class="cbp_tmicon"><i class="film icon"></i></div>
       		<div class="cbp_tmlabel">
-            <img alt="Spectre" ng-src="{{ show.movie.image }}">
+            <img alt="{{ show.movie.title }}" ng-src="{{ show.movie.image }}">
       			<h2>{{ show.movie.title }}</h2>
             <div class="ui horizontal label large">{{ show.type }}</div>
       			<p><b>{{ show.theater.name }}</b><br />
@@ -68,13 +68,13 @@
             <div class="meta">Via een URL of social media</div>
             <div class="description">
               <div class="ui action input">
-                <input type="text" id="copy" value="{{ baseUrl }}/planning/{{ id }}">
-                <button class="ui icon yellow button">
+                <input type="text" id="copy" value="{{ baseUrl }}planning/{{ id }}">
+                <button class="ui icon yellow button" onclick="copyToClipboard()">
                   <i class="copy icon"></i>
                 </button>
               </div>
               <div class="social-icons">
-                <p><a href="https://www.facebook.com/sharer/sharer.php?u={{ baseUrl }}planning/{{ id }}" target="_blank"><i class="facebook icon"></i> Deel via Facebook</a></p>
+                <p><a href="" target="_blank"><i class="facebook icon"></i> Deel via Facebook</a></p>
                 <p><a href="https://twitter.com/home?status=Bekijk%20mijn%20film%20planning%20voor%2{{ selectedItem.date }}%20op%20{{ baseUrl }}planning/{{ id }}" target="_blank"><i class="twitter icon"></i> Deel via Twitter</a></p>
               </div>
             </div>

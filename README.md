@@ -3,7 +3,7 @@
 </p>
 # Pathe Planner
 
-Pathe Planner is een film planner applicatie bedoeld voor Pathe Unlimited houders. Het maakt pashouders
+Pathe Planner is een film planner applicatie bedoeld voor Pathe Unlimited houders.
 
 ## Hoe werkt Pathe Planner
 De applicatie haalt film data op van de Pathe website door middel van een crawler. Om een planning te kunnen maken is de volgende data nodig:<br />

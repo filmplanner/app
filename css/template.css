@@ -263,6 +263,10 @@ h3 {
   color: #FDC229;
 }
 
+.heart.icon {
+  color: red;
+}
+
 /* The line */
 .cbp_tmtimeline:before {
 	content: '';
@@ -405,6 +409,7 @@ h3 {
   .make-planning button { width: 100%;}
   .logo { text-align: center; margin-bottom: 10px; }
   .dropdown.planning, .theater-button { float: none; width: 100%; margin: 0 !important; }
+  .share-with-friends { margin: 0px !important;}
 
   h1 {
     font-size: 18px;
@@ -412,7 +417,9 @@ h3 {
   .cbp_tmtimeline:before {
     display: none;
   }
-
+  .cbp_tmtimeline > li {
+    margin-bottom: 0px !important;
+  }
   .cbp_tmtimeline > li .cbp_tmtime {
     width: 100%;
     position: relative;

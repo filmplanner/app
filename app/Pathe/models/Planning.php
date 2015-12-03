@@ -4,7 +4,6 @@ namespace Pathe\Models;
 use Pathe\Models\Movie;
 use Pathe\Models\Show;
 
-// TODO: Algoritme drastisch sneller maken
 class Planning {
 
  /**
