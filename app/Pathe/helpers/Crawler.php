@@ -10,26 +10,32 @@ class Crawler {
 
   public static $BASE_URL = "http://www.pathe.nl";
 
-  // TODO: Testen of deze werkt
   public static function getTheaters()
   {
     $html = htmlqp(self::$BASE_URL . "/bioscoopagenda");
 
     // rows to get data from each theater
-    $rows = $html->find(".module-filter dd ul li a");
-    foreach($rows as $row)
-    {
-    	$alias = str_replace("/bioscoopagenda?cinema=", "", $row->attr("href"));
-    	$detailHtml = htmlqp(self::$BASE_URL . "/bioscoop/" . $alias);
-    	$name = $detailHtml->find(".cinema-visual-details h1")->first()->text();
-    	$city = $detailHtml->find(".cinema-visual-details h2")->first()->text();
+    $cities = $html->find(".module-filter dt");
+    $theaterContainer = $html->find(".module-filter dd");
 
-      // store object of theater
-    	$theater = new Theater;
-    	$theater->name = $name;
-    	$theater->city = $city;
-    	$theater->alias = $alias;
-    	$theater->save();
+    foreach($cities as $key => $city)
+    {
+      $city = str_replace("')", "", str_replace("Linkable('/bioscoopagenda/", "", $city->attr("onclick")));
+      $rows = $theaterContainer->eq($key)->find("ul li a");
+
+      foreach($rows as $row)
+      {
+        $name = $row->text();
+        $alias = str_replace("/bioscoopagenda?cinema=", "", $row->attr("href"));
+        $city = $city;
+
+        // store object of theater
+      	$theater = new Theater;
+      	$theater->name = $name;
+      	$theater->alias = $alias;
+        $theater->city = $city;
+      	$theater->save();
+      }
     }
   }
 

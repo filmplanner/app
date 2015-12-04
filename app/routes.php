@@ -5,6 +5,7 @@
   use Pathe\Models\Movie;
   use Pathe\Models\Planning;
   use Pathe\Models\Result;
+  use Pathe\Helpers\Crawler;
 
   $app->get("/getDays", function() {
     echo Day::all();
@@ -25,4 +26,8 @@
 
   $app->get("/getResult/:id", function($id) {
     echo Result::find($id)->toJson();
+  });
+
+  $app->get("/crawlTheaters", function() {
+    echo Crawler::getTheaters();
   });
