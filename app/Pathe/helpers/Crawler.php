@@ -20,7 +20,8 @@ class Crawler {
 
     foreach($cities as $key => $city)
     {
-      $city = str_replace("')", "", str_replace("Linkable('/bioscoopagenda/", "", $city->attr("onclick")));
+      $cityName = $city->text();
+      $cityAlias = str_replace("')", "", str_replace("Linkable('/bioscoopagenda/", "", $city->attr("onclick")));
       $rows = $theaterContainer->eq($key)->find("ul li a");
 
       foreach($rows as $row)
@@ -32,26 +33,35 @@ class Crawler {
         // store object of theater
       	$theater = new Theater;
       	$theater->name = $name;
+      	$theater->city = $cityName;
       	$theater->alias = $alias;
-        $theater->city = $city;
+        $theater->city_alias = $cityAlias;
       	$theater->save();
       }
     }
   }
 
-  public static function getShows($theater, $date)
+  public static function getShows($selectedTheaters, $date)
   {
-    $html = htmlqp(self::$BASE_URL . "/bioscoop/". $theater->alias ."/". $date);
-    $rows = $html->find(".overview-movies .schedule-movie");
+    $cityAlias = $selectedTheaters[0]->city_alias;
 
+    $html = htmlqp(self::$BASE_URL . "/bioscoopagenda/". $cityAlias ."?date=". $date);
+    $rows = $html->find(".schedule-movie");
+
+    $theaters = Theater::where("city_alias", $cityAlias)->get();
     $date = date("Y-m-d", strtotime($date));
 
     foreach($rows as $row)
     {
-        $movie = self::getMovie($row);
-        $duration = self::calculateMinutes($row);
+      $movie = self::getMovie($row);
+      $duration = self::calculateMinutes($row);
 
-        $times = $row->find(".table-schedule .table-btn");
+      $theatersSchedule = $row->find(".table-schedule tr");
+
+      foreach($theatersSchedule as $schedule)
+      {
+        $times = $schedule->find(".table-btn");
+        $theater = $theaters->where("name", $schedule->find("th")->text())->first();
 
         foreach($times as $time)
         {
@@ -80,14 +90,14 @@ class Crawler {
           $show->url = self::$BASE_URL . $time->attr("href");
           $show->save();
         }
+      }
     }
 
     // store log of succesful Crawl
     $log = new Log;
-    $log->theater_id = $theater->id;
+    $log->city_alias = $cityAlias;
     $log->date = $date;
     $log->save();
-
   }
 
   public static function getMovie($html)
@@ -99,7 +109,6 @@ class Crawler {
 
     if($movie == null)
     {
-
       // store movie object
       $movie = new Movie;
       $movie->title = $title;
@@ -114,7 +123,6 @@ class Crawler {
   {
     $start = str_replace("Begin ", "", $html->find(".tooltip ul li:nth-child(2)")->first()->text());
     $end = str_replace("Afgelopen ", "", $html->find(".tooltip ul li:nth-child(3)")->first()->text());
-
     $start = new \DateTime("2015-11-28 " . $start);
     $end = ($end < $start) ? new \DateTime("2015-11-29 " . $end) : new \DateTime("2015-11-28 " . $end);
 

@@ -2,7 +2,7 @@
 
 var BASE_URL = "http://localhost/Patheplanner/"
 var MAX_MOVIE_AMOUNT = 5;
-var DEFAULT_THEATER = { id: 11, name: "Pathé Spuimarkt", alias: "spuimarkt"};
+var DEFAULT_THEATERS = [{ id: 11, name: "Pathé Spuimarkt", alias: "spuimarkt", city: "Den Haag", city_alias: "denhaag", selected : true}];
 
 /* Controllers */
 var patheControllers = angular.module('patheControllers', []);
@@ -16,7 +16,7 @@ patheControllers.controller('HomeCtrl', ['$scope', '$location', '$cookies', 'pat
     $scope.loading;
 
     $scope.selectedDate = getDate();
-    $scope.selectedTheater = $cookies.get('theater') ? JSON.parse($cookies.get('theater')) : DEFAULT_THEATER;
+    $scope.selectedTheaters = $cookies.get('theaters') ? JSON.parse($cookies.get('theaters')) : DEFAULT_THEATERS;
     $scope.selectedMovies = [];
 
     // Retrieve data
@@ -25,20 +25,37 @@ patheControllers.controller('HomeCtrl', ['$scope', '$location', '$cookies', 'pat
     });
 
     patheService.getTheaters().success(function (response) {
-      $scope.theaters = response;
+      var theaters = $scope.setSelectedTheaters(response);
+      $scope.theaters = theaters;
     });
 
+    $scope.setSelectedTheaters = function(response)
+    {
+      $.each(response, function(city, theaters) {
+        $.each(theaters, function(key, theater) {
+          var index = getIndexByAlias($scope.selectedTheaters, theater.alias);
+          if(index > -1) {
+            theater.selected = true;
+          }
+        });
+      });
+      return response;
+    };
 
     $scope.getMovies = function()
     {
-      if($scope.selectedTheater) {
+      if($scope.selectedTheaters.length > 0) {
         // set loader
         $scope.loading = true;
         $scope.movies = [];
         $scope.selectedMovies = [];
 
-        // get movies by theater and date
-        patheService.getMovies($scope.selectedTheater.alias, $scope.selectedDate).success(function (response) {
+        // get movies by theaters and date
+        var data = {
+          date : $scope.selectedDate,
+          theaters : $scope.selectedTheaters
+        };
+        patheService.getMovies(data).success(function (response) {
           $scope.movies = response;
           $scope.loading = false;
         });
@@ -53,16 +70,33 @@ patheControllers.controller('HomeCtrl', ['$scope', '$location', '$cookies', 'pat
 
     $scope.selectTheater = function(theater)
     {
-      $scope.selectedTheater = theater;
+      var index = getIndexByAlias($scope.selectedTheaters, theater.alias);
 
-      // save theater in cookie
-      $cookies.put('theater', JSON.stringify(theater));
-      $scope.theaterButton = theater.name;
+      if(index == -1) {
+        // check if city is the same
+        if($scope.selectedTheaters.length > 0) {
+          if($scope.selectedTheaters[0].city_alias != theater.city_alias) {
+            $(".ui.checkbox input:checked."+ $scope.selectedTheaters[0].city_alias).click();
+            $scope.selectedTheaters = [];
+          }
+        }
+        // add theater to selected
+        $scope.selectedTheaters.push(theater);
 
-      $('.theater-modal').modal('hide');
-
-      $scope.getMovies();
+      } else {
+        // remove deselected theater
+        $scope.selectedTheaters.splice(index, 1);
+      }
     };
+
+    $scope.saveSelectedTheaters = function()
+    {
+      if($scope.selectedTheaters.length > 0) {
+        $cookies.put('theaters', JSON.stringify($scope.selectedTheaters));
+        $('.theater-modal').modal('hide');
+        $scope.getMovies();
+      }
+    }
 
     $scope.selectMovie = function(movie)
     {
@@ -86,7 +120,7 @@ patheControllers.controller('HomeCtrl', ['$scope', '$location', '$cookies', 'pat
       $('.planning-modal').modal('setting', 'closable', false).modal('show');
 
       var data = {
-        theaterId : $scope.selectedTheater.id,
+        theaters : $scope.selectedTheaters,
         date : $scope.selectedDate,
         movies : $scope.selectedMovies
       };
@@ -119,6 +153,19 @@ patheControllers.controller('HomeCtrl', ['$scope', '$location', '$cookies', 'pat
         }
       }
       return getCurrentDay();
+    };
+
+    function getIndexByAlias(obj, value) {
+        var returnKey = -1;
+
+        $.each(obj, function(key, info) {
+            if (info.alias == value) {
+               returnKey = key;
+               return false;
+            };
+        });
+
+        return returnKey;
     };
   }]);
 

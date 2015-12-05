@@ -9,25 +9,26 @@ class Movie extends Eloquent {
   public $timestamps = false;
   public static $db;
 
-  public static function getByTheaterAndDate($theater, $date, $app)
+  public static function getByTheaterAndDate($data, $app)
   {
-    $theater = Theater::where("alias", $theater)->first();
-
     // Check if data is already available in database
-    $isCrawled = Log::where("theater_id", $theater->id)
-                      ->where("date", date("Y-m-d", strtotime($date)))
+    $isCrawled = Log::where("city_alias", $data->theaters[0]->city_alias)
+                      ->where("date", date("Y-m-d", strtotime($data->date)))
                       ->where("created_at", 'LIKE', date('Y-m-d') . '%')->first();
 
     if(!$isCrawled) {
-        Crawler::getShows($theater, $date);
+        Crawler::getShows($data->theaters, $data->date);
     }
+
+    // Set IN array for query
+    foreach($data->theaters as $theater) $theaterIds[] = $theater->id;
 
     // Get data from Database
     $movies = $app->db->table('shows')
                       ->select("movies.*")
                       ->join('movies', 'movies.id', '=', 'shows.movie_id')
-                      ->where("shows.theater_id", $theater->id)
-                      ->where("shows.date", date("Y-m-d", strtotime($date)))
+                      ->whereIn("shows.theater_id", $theaterIds)
+                      ->where("shows.date", date("Y-m-d", strtotime($data->date)))
                       ->whereRaw('CONCAT(date, " ", start) > NOW()')
                       ->groupBy('shows.movie_id')
                       ->orderByRaw('COUNT(shows.movie_id) desc')

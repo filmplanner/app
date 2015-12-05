@@ -4,7 +4,7 @@
       <div class="logo">
         <a href="home"><img src="img/logo.png" alt="Pathe Planner"></a>
       </div>
-      <span class="ui yellow button align-right theater-button" ng-click="openModal()">{{ selectedTheater.name }}</span>
+      <span class="ui yellow button align-right theater-button" ng-click="openModal()">Mijn bioscopen ({{ selectedTheaters.length }})</span>
     </div>
   </div>
 </div>
@@ -55,20 +55,28 @@
 	<div class="ui small theater-modal modal">
     <div class="content">
       <div class="description">
-				<div class="ui form">
-				  <div class="grouped fields">
-				    <div class="field" ng-repeat="theater in theaters">
-				      <div class="ui radio checkbox"  ng-click="selectTheater(theater)">
-				        <input type="radio" name="selectedTheater" id="{{ theater.alias }}" ng-model="selectedTheater.alias" value="{{ theater.alias }}">
-				        <label for="{{ theater.alias }}">{{ theater.name }}</label>
-				      </div>
-				    </div>
-					</div>
-				</div>
+        <div ng-repeat="(city, items) in theaters">
+          <h4>{{ city }}</h4>
+    				<div class="ui form">
+    				  <div class="grouped fields">
+    				    <div class="field" ng-repeat="item in items">
+                  <div class="ui checkbox">
+                    <input type="checkbox"
+                          id="{{ item.alias }}"
+                          class="{{ item.city_alias }}"
+                          name="selectedTheaters[]"
+                          ng-model="item.selected"
+                          ng-change="selectTheater(item)">
+                    <label for="{{ item.alias }}">{{ item.name }}</label>
+                  </div>
+    				    </div>
+    					</div>
+    				</div>
+        </div>
       </div>
     </div>
     <div class="actions">
-      <div class="ui cancel button">Sluiten</div>
+      <div class="ui save yellow button" ng-click="saveSelectedTheaters()" ng-class="{'disabled' : selectedTheaters.length < 1}">Opslaan</div>
     </div>
   </div>
   <div class="ui basic planning-modal modal">

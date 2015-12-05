@@ -12,22 +12,19 @@
   });
 
   $app->get("/getTheaters", function() {
-    echo Theater::all()->toJson();
+    echo Theater::all()->groupBy("city")->toJson();
   });
 
-  $app->get("/getMovies/:theater/:date", function($theater, $date) use ($app) {
-    echo Movie::getByTheaterAndDate($theater, $date, $app);
+  $app->post("/getMovies", function() use ($app) {
+    $data = json_decode($app->request->getBody());
+    echo Movie::getByTheaterAndDate($data, $app);
   });
 
   $app->post("/makePlanning", function() use ($app) {
     $data = json_decode($app->request->getBody());
-    echo Planning::get($data->theaterId, $data->date, $data->movies);
+    echo Planning::get($data->theaters, $data->date, $data->movies);
   });
 
   $app->get("/getResult/:id", function($id) {
     echo Result::find($id)->toJson();
-  });
-
-  $app->get("/crawlTheaters", function() {
-    echo Crawler::getTheaters();
   });

@@ -18,8 +18,8 @@ patheServices.factory('patheService', ['$http', function ($http) {
       return $http.get(urlBase + '/getTheaters');
     };
 
-    patheService.getMovies = function(theater, date) {
-      return $http.get(urlBase + '/getMovies/'+ theater +'/' + date);
+    patheService.getMovies = function(data) {
+      return $http.post(urlBase + '/getMovies', data);
     };
 
     patheService.makePlanning = function(data) {

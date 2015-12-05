@@ -7,14 +7,17 @@ use Pathe\Helpers\ArrayHelper;
 
 class Planning {
 
-  public static function get($theaterId, $date, $movies)
+  public static function get($theaters, $date, $movies)
   {
+    // Set IN array for query
+    foreach($theaters as $theater) $theaterIds[] = $theater->id;
+
     foreach($movies as $movie)
     {
-      // get all shows of movie by theater and date
+      // get all shows of movie by theaters and date
       $array[] = Show::with("movie")
                         ->with("theater")
-                        ->where("theater_id", $theaterId)
+                        ->whereIn("theater_id", $theaterIds)
                         ->where("date", date("Y-m-d", strtotime($date)))
                         ->where("movie_id", $movie->id)
                         ->whereRaw('CONCAT(date, " ", start) > NOW()')
