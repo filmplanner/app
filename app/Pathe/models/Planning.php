@@ -84,12 +84,33 @@ class Planning
   private static function checkTimes($array, $index = 0)
   {
     $array[$index]["waittime"] = 0;
+    $array[$index]["traveltime"] = 0;
 
     if(array_key_exists($index + 1, $array) && is_array($array[$index + 1])) {
         // get next show in array
         $next = $array[$index + 1];
+        $end = $array[$index]["end"];
+
+        // check for distance between theaters
+        $theaterFrom = $array[$index]["theater"];
+        $theaterTo = $next["theater"];
+        $distanceExists = Distance::where(function ($query) use($theaterFrom, $theaterTo) {
+                            $query->where('from_id', $theaterFrom["id"])
+                                  ->where('to_id', $theaterTo["id"]);
+                            })
+                            ->orWhere(function ($query) use($theaterFrom, $theaterTo) {
+                            $query->where('from_id', $theaterTo["id"])
+                                  ->where('to_id', $theaterFrom["id"]);
+                            })->first();
+
+        if($distanceExists != null) {
+          $array[$index]["traveltime"] = $distanceExists->minutes;
+          $array[$index]["nextTheater"] = $next["theater"]["name"];
+          $end =  date("H:i:s", strtotime('+ '.((int)$distanceExists->minutes).' minutes', strtotime($array[$index]["end"])));
+        }
+
         // check if show time does not overlap
-        if($next["start"] < $array[$index]["end"] || $array[$index]["start"] > date("H:i:s", strtotime('- '.((int)$array[$index]["duration"]).' minutes', strtotime($next["start"])))) {
+        if($next["start"] < $end || $array[$index]["start"] > date("H:i:s", strtotime('- '.((int)$array[$index]["duration"]).' minutes', strtotime($next["start"])))) {
             // delete next show from array
             unset($array[$index + 1]);
             $array = array_values($array);
@@ -97,7 +118,6 @@ class Planning
         } else {
             // set waittime and identification
             $array[$index]["waittime"] = self::getWaitTime($array[$index]["end"], $next["start"]);
-
             $array = array_values($array);
             return self::checkTimes($array, $index + 1);
         }

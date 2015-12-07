@@ -356,6 +356,15 @@ h3 {
 	border-right-color: #3594cb;
 }
 
+.cbp_tmtimeline > li .cbp_tmlabel.traveltime {
+  background: #0f0f0f;
+  font-size: 14px;
+  padding: 20px;
+}
+
+.cbp_tmtimeline > li .cbp_tmlabel.traveltime:after {
+	border-right-color: #0f0f0f;
+}
 
 .cbp_tmtimeline > li .label {
 	color: #ffffff;
@@ -452,6 +461,11 @@ h3 {
   .cbp_tmtimeline > li.IMAX .cbp_tmlabel:after {
     border-right-color: transparent;
     border-bottom-color: #3594cb;
+  }
+
+  .cbp_tmtimeline > li .cbp_tmlabel.traveltime:after {
+    border-right-color: transparent;
+    border-bottom-color: #0f0f0f;
   }
 
   .cbp_tmtimeline > li .cbp_tmicon {

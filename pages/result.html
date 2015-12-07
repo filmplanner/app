@@ -56,6 +56,9 @@
               Afgelopen om <b>{{ show.end }}</b></p>
             <a href="{{ show.url }}" target="_blank" class="ui inverted white button">Tickets kopen</a>
       		</div>
+          <div class="cbp_tmlabel traveltime" ng-show="{{ show.traveltime > 0 }}">
+            Minimaal <b>{{ show.traveltime }} minuten</b> gereserveerd om naar <b>{{ show.nextTheater }}</b> te reizen.
+          </div>
       	</li>
       </ul>
     </div>

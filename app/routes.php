@@ -29,7 +29,3 @@
   $app->get("/getResult/:id", function($id) {
     echo Result::find($id)->toJson();
   });
-
-  $app->get("/test", function() {
-    echo Crawler::getTheaters();
-  });
