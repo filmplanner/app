@@ -1,8 +1,8 @@
 <?php
 namespace Pathe\Helpers;
 
-class ArrayHelper {
-
+class ArrayHelper
+{
   public static function orderBy()
   {
       $args = func_get_args();

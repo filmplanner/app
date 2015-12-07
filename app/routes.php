@@ -6,6 +6,7 @@
   use Pathe\Models\Planning;
   use Pathe\Models\Result;
   use Pathe\Helpers\Crawler;
+  use Pathe\Helpers\GoogleAPIHelper;
 
   $app->get("/getDays", function() {
     echo Day::all();
@@ -27,4 +28,8 @@
 
   $app->get("/getResult/:id", function($id) {
     echo Result::find($id)->toJson();
+  });
+
+  $app->get("/test", function() {
+    echo Crawler::getTheaters();
   });

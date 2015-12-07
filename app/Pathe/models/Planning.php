@@ -5,8 +5,8 @@ use Pathe\Models\Movie;
 use Pathe\Models\Show;
 use Pathe\Helpers\ArrayHelper;
 
-class Planning {
-
+class Planning
+{
   public static function get($theaters, $date, $movies)
   {
     // Set IN array for query

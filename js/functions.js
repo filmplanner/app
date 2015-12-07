@@ -4,11 +4,9 @@
       content = $('.movies').smoothState();
 })(jQuery);
 
-// DAY SELECTOR
-$(document).on("click", ".days td", function() {
-	$(this).parent().find("td").removeClass("active");
-	$(this).addClass("active");
-});
+function openModal() {
+  $('.theater-modal').modal('show');
+}
 
 function getCurrentDay() {
   var today = new Date();
@@ -35,4 +33,31 @@ function copyToClipboard() {
    $temp.val($("#copy").val()).select();
    document.execCommand("copy");
    $temp.remove();
+}
+
+function getSelectedDate(cookie)
+{
+  if(cookie)
+  {
+    var date = cookie;
+    var parts = date.split("-");
+    var dateCheck = new Date(Number(parts[2]), Number(parts[1]) - 1, Number(parts[0]));
+    if(new Date(dateCheck) > new Date()) {
+      return date;
+    }
+  }
+  return getCurrentDay();
+}
+
+function getIndexByAlias(obj, value) {
+    var returnKey = -1;
+
+    $.each(obj, function(key, info) {
+        if (info.alias == value) {
+           returnKey = key;
+           return false;
+        };
+    });
+
+    return returnKey;
 }

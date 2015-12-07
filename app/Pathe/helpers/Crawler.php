@@ -5,9 +5,11 @@ use Pathe\Models\Theater;
 use Pathe\Models\Movie;
 use Pathe\Models\Show;
 use Pathe\Models\Log;
+use Pathe\Models\Distance;
+use Pathe\Helpers\GoogleAPIHelper;
 
-class Crawler {
-
+class Crawler
+{
   public static $BASE_URL = "http://www.pathe.nl";
 
   public static function getTheaters()
@@ -37,6 +39,39 @@ class Crawler {
       	$theater->alias = $alias;
         $theater->city_alias = $cityAlias;
       	$theater->save();
+      }
+    }
+
+    // store distances between each theater
+    $theaterCities = Theater::all()->groupBy("city");
+
+    foreach($theaterCities as $city => $theaters)
+    {
+      if(count($theaters) > 1)
+      {
+        foreach($theaters as $theater)
+        {
+          $theaterFrom = $theater;
+          foreach($theaters as $t)
+          {
+            $theaterTo = $t;
+            if($theaterFrom->id != $theaterTo->id)
+            {
+              $distanceExists = Distance::where(function ($query) use($theaterFrom, $theaterTo) {
+                                        $query->where('from_id', $theaterFrom->id)
+                                              ->where('to_id', $theaterTo->id);
+                                        })
+                                        ->orWhere(function ($query) use($theaterFrom, $theaterTo) {
+                                        $query->where('from_id', $theaterTo->id)
+                                              ->where('to_id', $theaterFrom->id);
+                                        })->get();
+              if(count($distanceExists) < 1) {
+                $distance = GoogleAPIHelper::getDistance($theaterFrom, $theaterTo);
+                $distance->save();
+              }
+            }
+          }
+        }
       }
     }
   }

@@ -3,8 +3,8 @@
 namespace Pathe\Models;
 use Pathe\Helpers\DayHelper;
 
-class Day {
-
+class Day
+{
   public static $amountOfDays = 7;
 
   public static function all()

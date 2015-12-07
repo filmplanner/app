@@ -10,12 +10,7 @@ var patheControllers = angular.module('patheControllers', []);
 patheControllers.controller('HomeCtrl', ['$scope', '$location', '$cookies', 'patheService',
   function($scope, $location, $cookies, patheService)
   {
-  	$scope.movies;
-    $scope.theaters;
-    $scope.days;
-    $scope.loading;
-
-    $scope.selectedDate = getDate();
+    $scope.selectedDate = getSelectedDate($cookies.get('day'));
     $scope.selectedTheaters = $cookies.get('theaters') ? JSON.parse($cookies.get('theaters')) : DEFAULT_THEATERS;
     $scope.selectedMovies = [];
 
@@ -132,41 +127,10 @@ patheControllers.controller('HomeCtrl', ['$scope', '$location', '$cookies', 'pat
       });
     }
 
-    $scope.openModal = function() {
-      $('.theater-modal').modal('show');
-    }
-
     $scope.$watch('selectedDate', function()
     {
       $scope.getMovies();
     });
-
-    function getDate()
-    {
-      if($cookies.get('day'))
-      {
-        var date = $cookies.get('day');
-        var parts = date.split("-");
-        var dateCheck = new Date(Number(parts[2]), Number(parts[1]) - 1, Number(parts[0]));
-        if(new Date(dateCheck) > new Date()) {
-          return date;
-        }
-      }
-      return getCurrentDay();
-    };
-
-    function getIndexByAlias(obj, value) {
-        var returnKey = -1;
-
-        $.each(obj, function(key, info) {
-            if (info.alias == value) {
-               returnKey = key;
-               return false;
-            };
-        });
-
-        return returnKey;
-    };
   }]);
 
 
@@ -174,8 +138,6 @@ patheControllers.controller('HomeCtrl', ['$scope', '$location', '$cookies', 'pat
     function($scope, $routeParams, $timeout, patheService)
     {
       $scope.id = $routeParams.id;
-      $scope.items;
-      $scope.selectedItem;
       $scope.baseUrl = BASE_URL;
 
       patheService.getResult($scope.id).success(function (response) {

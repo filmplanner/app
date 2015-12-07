@@ -2,8 +2,8 @@
 
 namespace Pathe\Helpers;
 
-class DayHelper {
-
+class DayHelper
+{
 	public static function translate($dayIndex)
 	{
 		$day = date("l", strtotime("+".$dayIndex." day"));

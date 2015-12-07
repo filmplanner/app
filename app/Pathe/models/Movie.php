@@ -4,8 +4,8 @@ namespace Pathe\Models;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Pathe\Helpers\Crawler;
 
-class Movie extends Eloquent {
-
+class Movie extends Eloquent
+{
   public $timestamps = false;
   public static $db;
 

@@ -3,8 +3,8 @@
 namespace Pathe\Models;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class Show extends Eloquent {
-
+class Show extends Eloquent
+{
   public $timestamps = false;
 
   public function movie()
