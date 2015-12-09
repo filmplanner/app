@@ -138,24 +138,28 @@ patheControllers.controller('HomeCtrl', ['$scope', '$location', '$cookies', 'pat
     function($scope, $routeParams, $timeout, patheService)
     {
       $scope.id = $routeParams.id;
+      $scope.index = $routeParams.index ? $routeParams.index - 1 : 0;
       $scope.baseUrl = BASE_URL;
+      $scope.loading = true;
 
       patheService.getResult($scope.id).success(function (response) {
         // set data
+        $scope.loading = false;
         if(response.data) {
           $scope.items = JSON.parse(response.data);
-          $scope.selectedItem = $scope.items[0];
+          $scope.selectedItem = $scope.items[$scope.index];
 
           // set dropdown list
           $('.planning.dropdown').dropdown();
           $timeout(function() {
-            angular.element('.planning.dropdown .item:first').trigger('click');
+            angular.element('.planning.dropdown #planning-'+ $scope.index).trigger('click');
           }, 0);
         }
       });
 
       $scope.setPlanning = function(index) {
         $scope.selectedItem = $scope.items[index];
+        $scope.index = index;
       };
 
     }]);

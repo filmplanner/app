@@ -404,7 +404,30 @@ h3 {
 	box-shadow: 0 0 0 8px #B2DAF3;
 }
 
-/* Example Media Queries */
+.owl-carousel:hover .owl-nav div {
+  display: block;
+}
+
+.owl-nav div {
+  display: none;
+  position: absolute;
+  top: 0;
+  background: rgba(0,0,0,0.8);
+  padding: 130px 20px;
+  height: 302px;
+  color: #fdc229;
+  font-size: 60px;
+  transition: all 0.2s ease-in-out;
+}
+
+.owl-nav .owl-prev {
+  left: 0;
+}
+
+.owl-nav .owl-next {
+  right: 0;
+}
+
 @media screen and (max-width: 65.375em) {
 
 	.cbp_tmtimeline > li .cbp_tmtime span:last-child {
@@ -433,6 +456,24 @@ h3 {
     width: 100%;
     position: relative;
     padding: 0 0 20px 0;
+  }
+  .movies .item:hover .mask .title {
+      background: rgba(0,0,0,0.8);
+  }
+
+  .movies .item:hover .mask {
+     opacity: 1;
+     background: none;
+  }
+
+  .movies .item.selected .mask .title {
+      opacity: 1;
+      background: none;
+  }
+
+  .movies .item.selected .mask {
+     opacity: 1;
+     background: rgba(0,0,0,0.8);
   }
 
   .cbp_tmtimeline > li .cbp_tmtime span {

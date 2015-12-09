@@ -14,7 +14,8 @@
           <div class="divider"></div>
           <div class="item"
               ng-repeat="(index, item) in items"
-              ng-click="setPlanning(index)">
+              ng-click="setPlanning(index)"
+              id="planning-{{ index }}">
             <span class="description">{{ item.shows.length }} films</span>
             <span class="text">Planning #{{ index + 1 }}</span>
           </div>
@@ -24,7 +25,7 @@
   </div>
 </div>
 
-<div class="error" ng-hide="selectedItem">
+<div class="error" ng-show="!loading && !selectedItem">
   <div class="heading">
   	<div class="ui container grid">
       <div class="sixteen wide column">
@@ -70,15 +71,16 @@
             <div class="header">Delen met je vrienden</div>
             <div class="meta">Via een URL of social media</div>
             <div class="description">
-              <div class="ui action input">
-                <input type="text" id="copy" value="{{ baseUrl }}planning/{{ id }}">
+              <div class="ui action input mobile-hide">
+                <input type="text" id="copy" value="{{ baseUrl }}planning/{{ id }}/{{ index + 1 }}">
                 <button class="ui icon yellow button" onclick="copyToClipboard()">
                   <i class="copy icon"></i>
                 </button>
               </div>
               <div class="social-icons">
-                <p><a href="" target="_blank"><i class="facebook icon"></i> Deel via Facebook</a></p>
-                <p><a href="https://twitter.com/home?status=Bekijk%20mijn%20film%20planning%20voor%2{{ selectedItem.date }}%20op%20{{ baseUrl }}planning/{{ id }}" target="_blank"><i class="twitter icon"></i> Deel via Twitter</a></p>
+                <p class="hide mobile-show"><a href="whatsapp://send?text=Bekijk%20mijn%20film%20planning%20voor%20{{ selectedItem.date }}%20op%20{{ baseUrl }}planning/{{ id }}/{{ index + 1 }}" data-action="share/whatsapp/share"><i class="comments outline icon"></i> Deel via WhatsApp</a></p>
+                <p><a href="https://www.facebook.com/sharer/sharer.php?u={{ baseUrl }}planning/{{ id }}/{{ index + 1 }}" target="_blank"><i class="facebook icon"></i> Deel via Facebook</a></p>
+                <p><a href="https://twitter.com/home?status=Bekijk%20mijn%20film%20planning%20voor%20{{ selectedItem.date }}%20op%20{{ baseUrl }}planning/{{ id }}/{{ index + 1 }}" target="_blank"><i class="twitter icon"></i> Deel via Twitter</a></p>
               </div>
             </div>
           </div>
