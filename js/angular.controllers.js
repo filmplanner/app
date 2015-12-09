@@ -131,6 +131,9 @@ patheControllers.controller('HomeCtrl', ['$scope', '$location', '$cookies', 'pat
     {
       $scope.getMovies();
     });
+
+    // delete modals on load
+    $(".page.modals").remove();
   }]);
 
 
