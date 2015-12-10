@@ -3,6 +3,8 @@ var uglify = require('gulp-uglify');
 var minifyCss = require('gulp-minify-css');
 var concat = require('gulp-concat');
 
+gulp.task('default', ['scripts', 'styles']);
+
 gulp.task('scripts', function() {
   gulp.src(['node_modules/jquery/dist/jquery.js',
             'node_modules/angular/angular.js',

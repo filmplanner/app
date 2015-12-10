@@ -35,3 +35,7 @@ patheApp.config(['$routeProvider', '$locationProvider',
         requireBase: false
       });
   }]);
+
+  patheApp.config(function($compileProvider){
+     $compileProvider.aHrefSanitizationWhitelist("/^\s*(whatsapp|https):/");
+  });
