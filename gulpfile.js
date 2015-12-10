@@ -8,9 +8,9 @@ gulp.task('scripts', function() {
             'node_modules/angular/angular.js',
             'node_modules/angular-route/angular-route.js',
             'node_modules/angular-cookies/angular-cookies.min.js',
-            'js/core/*.js',
-            'js/angular/*.js',
-            'js/functions.js'
+            'assets/js/core/*.js',
+            'assets/js/angular/*.js',
+            'assets/js/functions.js'
           ])
   .pipe(concat('app.js'))
   .pipe(uglify())
@@ -18,12 +18,12 @@ gulp.task('scripts', function() {
 });
 
 gulp.task('styles', function() {
-  gulp.src(['css/semantic.min.css',
-            'css/modal.css',
-            'css/icon.min.css',
-            'css/owl.carousel.css',
-            'css/owl.transitions.css',
-            'css/template.css',
+  gulp.src(['assets/css/semantic.min.css',
+            'assets/css/modal.css',
+            'assets/css/icon.min.css',
+            'assets/css/owl.carousel.css',
+            'assets/css/owl.transitions.css',
+            'assets/css/template.css',
           ])
   .pipe(minifyCss())
   .pipe(concat('app.css'))
