@@ -24,7 +24,7 @@ function getCurrentDay() {
 
   today = dd+'-'+mm+'-'+yyyy;
   return today;
-}
+};
 
 function copyToClipboard() {
   var $temp = $("<input>")
@@ -33,7 +33,7 @@ function copyToClipboard() {
    $temp.val($("#copy").val()).select();
    document.execCommand("copy");
    $temp.remove();
-}
+};
 
 function getSelectedDate(cookie)
 {
@@ -47,7 +47,7 @@ function getSelectedDate(cookie)
     }
   }
   return getCurrentDay();
-}
+};
 
 function getIndexByAlias(obj, value) {
     var returnKey = -1;
@@ -60,4 +60,4 @@ function getIndexByAlias(obj, value) {
     });
 
     return returnKey;
-}
+};

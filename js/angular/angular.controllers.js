@@ -1,6 +1,6 @@
 'use strict';
 
-var BASE_URL = "http://localhost/Patheplanner/"
+var BASE_URL = "http://localhost/Patheplanner/";
 var MAX_MOVIE_AMOUNT = 5;
 var DEFAULT_THEATERS = [{ id: 11, name: "Pathé Spuimarkt", alias: "spuimarkt", city: "Den Haag", city_alias: "denhaag", selected : true}];
 
