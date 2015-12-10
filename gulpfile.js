@@ -3,31 +3,17 @@ var uglify = require('gulp-uglify');
 var minifyCss = require('gulp-minify-css');
 var concat = require('gulp-concat');
 
-gulp.task('core', function() {
+gulp.task('scripts', function() {
   gulp.src(['node_modules/jquery/dist/jquery.js',
             'node_modules/angular/angular.js',
             'node_modules/angular-route/angular-route.js',
-            'node_modules/angular-cookies/*.js',
-            'node_modules/angular-owl-carousel-master/angular-owl-carousel.js',
-            'js/core/*.js'
+            'node_modules/angular-cookies/angular-cookies.min.js',
+            'js/core/*.js',
+            'js/angular/*.js',
+            'js/functions.js'
           ])
-  .pipe(concat('core.js'))
-  .pipe(uglify())
-  .pipe(gulp.dest('build/js'));
-});
-
-gulp.task('scripts', function() {
-  gulp.src(['js/angular/*.js',
-            'js/functions.js',
-          ])
-  .pipe(concat('scripts.js'))
-  .pipe(uglify())
-  .pipe(gulp.dest('build/js'));
-});
-
-gulp.task('app', function() {
-  gulp.src('build/js/*.js')
   .pipe(concat('app.js'))
+  .pipe(uglify())
   .pipe(gulp.dest('build/js'));
 });
 
@@ -40,6 +26,6 @@ gulp.task('styles', function() {
             'css/template.css',
           ])
   .pipe(minifyCss())
-  .pipe(concat('style.css'))
+  .pipe(concat('app.css'))
   .pipe(gulp.dest('build/css'));
 });
