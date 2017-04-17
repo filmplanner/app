@@ -1,5 +1,5 @@
 # pathe-client
-
+[![Build Status](https://travis-ci.org/pathe-planner/pathe-client.svg?branch=master)](https://travis-ci.org/pathe-planner/pathe-client)
 > A Vue.js project
 
 ## Build Setup
