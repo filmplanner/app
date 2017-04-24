@@ -2,3 +2,9 @@ language: node_js
 node_js:
 - '6'
 - '7'
+before_deploy: npm run build
+deploy:
+  provider: surge
+  project: ./dist/
+  domain: filmplanner.surge.sh
+  skip_cleanup: true
