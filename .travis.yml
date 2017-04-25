@@ -6,5 +6,5 @@ before_deploy: npm run build
 deploy:
   provider: surge
   project: ./dist/
-  domain: filmplanner.surge.sh
+  domain: filmplanner.nl
   skip_cleanup: true
