@@ -1,29 +1,26 @@
 <template>
   <div id="app">
+
     <!-- Navigation -->
     <nav id="mainNav" class="navbar static-top navbar-toggleable-md navbar-inverse bg-inverse">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="#">Film Planner</a>
+        <a class="navbar-brand" href="#"><img src="./assets/logo.png" alt="Film Planner"></a>
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="sidebar-nav navbar-nav">
                 <router-link tag="li" class="nav-item" to="/" exact-active-class="active">
                   <a class="nav-link"><i class="fa fa-fw fa-calendar-o"></i> Plannen</a>
                 </router-link>
-                <router-link tag="li" class="nav-item" to="/planner" exact-active-class="active">
+                <router-link tag="li" class="nav-item" to="/films" exact-active-class="active">
                   <a class="nav-link"><i class="fa fa-fw fa-film"></i> Films</a>
                 </router-link>
             </ul>
         </div>
     </nav>
 
-    <div class="content-wrapper">
-
-        <div class="container-fluid">
-          <router-view></router-view>
-        </div>
-
+    <div class="content-wrapper py-3">
+        <router-view></router-view>
     </div>
   </div>
 </template>
@@ -39,18 +36,18 @@ body {
 }
 
 body.fixed-nav {
-  padding-top: 54px; 
+  padding-top: 62px; 
 }
 
 @media (min-width: 992px) {
   body.fixed-nav {
-    padding-top: 56px; 
+    padding-top: 62px; 
   } 
 }
 
 .content-wrapper {
   background: white; 
-  height: calc(100vh - 54px);
+  height: calc(100vh - 62px);
 }
 
 @media (min-width: 992px) {
@@ -177,9 +174,9 @@ body.fixed-nav {
       left: 0;
       overflow: auto;
       flex-direction: column;
-      height: calc(100vh - 54px);
-      margin-top: 56px;
-      padding-bottom: 56px;
+      height: calc(100vh - 62px);
+      margin-top: 62px;
+      padding-bottom: 62px;
       background: #292b2c;
       -webkit-flex-direction: column;
       -ms-flex-direction: column; }

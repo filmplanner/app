@@ -1,5 +1,6 @@
 <template>
   <div class="container-fluid">
-    <h1>Plannen</h1>
+    <h1>Films</h1>
   </div>
 </template>
+
