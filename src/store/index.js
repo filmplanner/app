@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import createLogger from 'vuex/dist/logger';
 import * as actions from './actions';
 import * as mutations from './mutations';
+import * as getters from './getters';
 
 import planner from './modules/planner';
 
@@ -13,6 +14,7 @@ const debug = process.env.NODE_ENV !== 'production';
 const store = new Vuex.Store({
   actions,
   mutations,
+  getters,
   modules: {
     planner,
   },
