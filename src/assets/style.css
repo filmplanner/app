@@ -1,79 +1,50 @@
-<template>
-  <div id="app">
-    <!-- Navigation -->
-    <nav id="mainNav" class="navbar static-top navbar-toggleable-md navbar-inverse bg-inverse">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <a class="navbar-brand" href="#">Film Planner</a>
-        <div class="collapse navbar-collapse" id="navbar">
-            <ul class="sidebar-nav navbar-nav">
-                <router-link tag="li" class="nav-item" to="/" exact-active-class="active">
-                  <a class="nav-link"><i class="fa fa-fw fa-calendar-o"></i> Plannen</a>
-                </router-link>
-                <router-link tag="li" class="nav-item" to="/planner" exact-active-class="active">
-                  <a class="nav-link"><i class="fa fa-fw fa-film"></i> Films</a>
-                </router-link>
-            </ul>
-        </div>
-    </nav>
-
-    <div class="content-wrapper">
-
-        <div class="container-fluid">
-          <router-view></router-view>
-        </div>
-
-    </div>
-  </div>
-</template>
-
-<style lang="scss">
 /*!
  * Start Bootstrap - SB Admin v4.0.0-alpha (http://startbootstrap.com/template-overviews/sb-admin)
  * Copyright 2013-2017 Start Bootstrap
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-sb-admin/blob/master/LICENSE)
  */
 body {
-  background: #292b2c; 
-}
+  background: #292b2c; }
 
 body.fixed-nav {
-  padding-top: 54px; 
-}
-
-@media (min-width: 992px) {
-  body.fixed-nav {
-    padding-top: 56px; 
-  } 
-}
+  padding-top: 54px; }
+  @media (min-width: 992px) {
+    body.fixed-nav {
+      padding-top: 56px; } }
 
 .content-wrapper {
-  background: white; 
-  height: calc(100vh - 54px);
-}
+  background: white; }
+  @media (min-width: 992px) {
+    .content-wrapper {
+      margin-left: 250px; } }
 
-@media (min-width: 992px) {
-  .content-wrapper {
-    margin-left: 250px; 
-  } 
-}
+.scroll-to-top {
+  line-height: 45px;
+  position: fixed;
+  right: 15px;
+  bottom: 15px;
+  display: none;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  color: white;
+  background: rgba(41, 43, 44, 0.5); }
+  .scroll-to-top:hover, .scroll-to-top:focus {
+    color: white; }
+  .scroll-to-top:hover {
+    background: #292b2c; }
 
 .smaller {
-  font-size: .7rem; 
-}
+  font-size: .7rem; }
 
 .o-hidden {
-  overflow: hidden !important;
-}
+  overflow: hidden !important; }
 
 .z-0 {
-  z-index: 0; 
-}
+  z-index: 0; }
 
 .z-1 {
-  z-index: 1; 
-}
+  z-index: 1; }
 
 .card-block-icon {
   font-size: 5rem;
@@ -83,30 +54,22 @@ body.fixed-nav {
   right: -25px;
   -webkit-transform: rotate(15deg);
   -ms-transform: rotate(15deg);
-  transform: rotate(15deg); 
-}
+  transform: rotate(15deg); }
 
 @media (min-width: 576px) {
   .card-columns {
-    column-count: 1; 
-  } 
-}
+    column-count: 1; } }
 
 @media (min-width: 768px) {
   .card-columns {
-    column-count: 2; 
-  } 
-}
+    column-count: 2; } }
 
 @media (min-width: 1200px) {
   .card-columns {
-    column-count: 2; 
-  } 
-}
+    column-count: 2; } }
 
 .navbar-inverse input.form-control {
-  border-color: #eceeef; 
-}
+  border-color: #eceeef; }
 
 #mainNav .navbar-collapse {
   overflow: auto;
@@ -177,7 +140,7 @@ body.fixed-nav {
       left: 0;
       overflow: auto;
       flex-direction: column;
-      height: calc(100vh - 54px);
+      height: 100vh;
       margin-top: 56px;
       padding-bottom: 56px;
       background: #292b2c;
@@ -215,5 +178,3 @@ body.fixed-nav {
         text-align: center; }
     #mainNav .navbar-collapse .navbar-nav > .nav-item.dropdown .dropdown-menu > .dropdown-item > .dropdown-message {
       max-width: 300px; } }
-
-</style>

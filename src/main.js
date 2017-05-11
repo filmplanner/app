@@ -1,8 +1,20 @@
 import Vue from 'vue';
 import { sync } from 'vuex-router-sync';
+
+import BootstrapVue from 'bootstrap-vue';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+import 'font-awesome/css/font-awesome.css';
+
 import App from './App';
 import store from './store';
 import router from './router';
+
+window.jQuery = require('jquery');
+window.Tether = require('tether');
+require('bootstrap');
+
+Vue.use(BootstrapVue);
 
 Vue.config.productionTip = false;
 
