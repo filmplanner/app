@@ -1,6 +1,7 @@
-# pathe-client
-[![Build Status](https://travis-ci.org/pathe-planner/pathe-client.svg?branch=master)](https://travis-ci.org/pathe-planner/pathe-client)
-> A Vue.js project
+# app
+[![Build Status](https://travis-ci.org/filmplanner/app.svg?branch=master)](https://travis-ci.org/filmplanner/app)
+
+> Front-end (SPA) of Film Planner written in Vue.
 
 ## Build Setup
 
@@ -17,5 +18,3 @@ npm run build
 # build for production and view the bundle analyzer report
 npm run build --report
 ```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
