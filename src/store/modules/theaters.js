@@ -9,10 +9,12 @@ const state = {
 // actions
 const actions = {
   [types.LOAD_THEATER_LIST]: ({ commit }) => {
-    HTTP.get('/theaters')
-    .then((response) => {
-      commit(types.SET_THEATER_LIST, { list: response.data });
-    });
+    if (state.all.length === 0) {
+      HTTP.get('/theaters')
+      .then((response) => {
+        commit(types.SET_THEATER_LIST, { list: response.data });
+      });
+    }
   },
 };
 
