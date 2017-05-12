@@ -2,13 +2,16 @@
   <div id="app">
 
     <!-- Navigation -->
-    <nav id="mainNav" class="navbar static-top navbar-toggleable-md navbar-inverse bg-inverse">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <nav id="mainNav" class="navbar fixed-top navbar-toggleable-md navbar-inverse bg-inverse">
+        <button class="navbar-toggler navbar-toggler-left" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <a class="navbar-brand" href="#"><img src="./assets/logo.png" alt="Film Planner"></a>
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="sidebar-nav navbar-nav">
+                <li class="nav-item nav-logo hidden-md-down">
+                  <a href="#"><img src="https://avatars0.githubusercontent.com/u/27649903?v=3&s=200" alt="Film Planner"></a>
+                </li>
                 <router-link tag="li" class="nav-item" to="/" exact-active-class="active">
                   <a class="nav-link"><i class="fa fa-fw fa-calendar-o"></i> Plannen</a>
                 </router-link>
@@ -35,19 +38,10 @@ body {
   background: #292b2c; 
 }
 
-body.fixed-nav {
-  padding-top: 62px; 
-}
-
-@media (min-width: 992px) {
-  body.fixed-nav {
-    padding-top: 62px; 
-  } 
-}
-
 .content-wrapper {
   background: white; 
-  height: calc(100vh - 62px);
+  margin-top: 62px;
+  min-height: calc(100vh - 62px);
 }
 
 @media (min-width: 992px) {
@@ -70,6 +64,10 @@ body.fixed-nav {
 
 .z-1 {
   z-index: 1; 
+}
+
+.navbar-brand {
+  text-align: center;
 }
 
 .card-block-icon {
@@ -105,8 +103,12 @@ body.fixed-nav {
   border-color: #eceeef; 
 }
 
+.nav-logo {
+  text-align: center;
+}
+
 #mainNav .navbar-collapse {
-  overflow: auto;
+  overflow: hidden;
   max-height: 75vh; }
   #mainNav .navbar-collapse .navbar-nav.sidebar-nav .nav-link-collapse:after {
     font-family: 'FontAwesome';
@@ -172,11 +174,9 @@ body.fixed-nav {
       position: absolute;
       top: 0;
       left: 0;
-      overflow: auto;
+      overflow: hidden;
       flex-direction: column;
-      height: calc(100vh - 62px);
-      margin-top: 62px;
-      padding-bottom: 62px;
+      height: 100vh;
       background: #292b2c;
       -webkit-flex-direction: column;
       -ms-flex-direction: column; }
