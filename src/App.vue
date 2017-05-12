@@ -18,6 +18,7 @@ export default {
 <style lang="scss">
 body {
   background: #292b2c; 
+  font-family: 'Roboto', sans-serif;
 }
 
 .content-wrapper {
