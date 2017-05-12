@@ -5,7 +5,8 @@ import * as actions from './actions';
 import * as mutations from './mutations';
 import * as getters from './getters';
 
-import planner from './modules/planner';
+import theaters from './modules/theaters';
+import movies from './modules/movies';
 
 Vue.use(Vuex);
 
@@ -16,7 +17,8 @@ const store = new Vuex.Store({
   mutations,
   getters,
   modules: {
-    planner,
+    theaters,
+    movies,
   },
   strict: debug,
   plugins: debug ? [createLogger()] : [],

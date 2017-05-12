@@ -25,7 +25,9 @@ sync(store, router);
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  store,
   router,
-  render: h => h(App),
+  store,
+  render: (h) => {
+    return h(App);
+  },
 });
