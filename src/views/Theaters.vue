@@ -27,5 +27,6 @@ export default {
     this.$store.dispatch(types.LOAD_THEATER_LIST);
   },
 };
+
 </script>
 

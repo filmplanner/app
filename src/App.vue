@@ -2,20 +2,24 @@
   <div id="app">
     <navigation></navigation>
     <router-view></router-view>
+    <modals></modals>
   </div>
 </template>
 
 <script>
 import Navigation from './components/Navigation';
+import Modals from './components/Modals';
 
 export default {
   components: {
     Navigation,
+    Modals,
   },
 };
 </script>
 
 <style lang="scss">
+
 body {
   background: #292b2c; 
   font-family: 'Roboto', sans-serif;

@@ -24,7 +24,7 @@
                     </ul>
                 </li>
                 <router-link tag="li" class="nav-item" to="/bioscopen" exact-active-class="active">
-                  <a class="nav-link"><i class="fa fa-fw fa-building-o"></i> Bioscopen</a>
+                  <a class="nav-link"><i class="fa fa-fw fa-map-marker"></i> Bioscopen</a>
                 </router-link>
             </ul>
             <ul class="navbar-nav ml-auto">
@@ -79,55 +79,70 @@ $nav-text-color-active: white;
   padding: 30px 0px !important;
 }
 
-#mainNav .navbar-collapse {
-  overflow: hidden;
-  max-height: 75vh; 
-}
-
 .navbar-inverse .navbar-toggler {
   border: none;
   outline: none;
   padding: 7px 0px;
 }
 
-#mainNav .navbar-collapse .navbar-nav.sidebar-nav .nav-link-collapse:after {
-  font-family: 'FontAwesome';
-  float: right;
-  content: '\f107';
-  color: $nav-text-color; 
-}
+#mainNav {
 
-#mainNav .navbar-collapse .navbar-nav.sidebar-nav .nav-link-collapse.collapsed:after {
-  content: '\f105'; 
-}
+  .navbar-collapse {
+    overflow: hidden;
+    max-height: 75vh; 
 
-#mainNav .navbar-collapse .navbar-nav.sidebar-nav .sidebar-second-level,
-#mainNav .navbar-collapse .navbar-nav.sidebar-nav .sidebar-third-level {
-  padding-left: 0; 
-}
+    .navbar-nav {
 
-#mainNav .navbar-collapse .navbar-nav.sidebar-nav .sidebar-second-level > li > a,
-#mainNav .navbar-collapse .navbar-nav.sidebar-nav .sidebar-third-level > li > a {
-  display: block;
-  padding: .5em 0;
-}
+      .nav-link-collapse:after {
+        font-family: 'FontAwesome';
+        float: right;
+        content: '\f107';
+        color: $nav-text-color; 
+      }
 
-#mainNav .navbar-collapse .navbar-nav.sidebar-nav .sidebar-second-level > li > a:focus, #mainNav .navbar-collapse .navbar-nav.sidebar-nav .sidebar-second-level > li > a:hover,
-#mainNav .navbar-collapse .navbar-nav.sidebar-nav .sidebar-third-level > li > a:focus,
-#mainNav .navbar-collapse .navbar-nav.sidebar-nav .sidebar-third-level > li > a:hover {
-  text-decoration: none;
-}
+      .nav-link-collapse.collapsed:after {
+        content: '\f105'; 
+      }
 
-#mainNav .navbar-collapse .navbar-nav.sidebar-nav .sidebar-second-level > li > a {
-  padding-left: 1em; 
-}
+      .sidebar-second-level,
+      .sidebar-third-level {
+        padding-left: 0; 
+      }
 
-#mainNav .navbar-collapse .navbar-nav.sidebar-nav .sidebar-third-level > li > a {
-  padding-left: 2em; 
-}
-#mainNav .navbar-collapse .navbar-nav > .nav-item.dropdown > .nav-link {
-  position: relative;
-  min-width: 45px; 
+      .sidebar-second-level > li > a,
+      .sidebar-third-level > li > a {
+        display: block;
+        padding: .5em 0;
+      }
+
+      .sidebar-second-level > li > a:focus,
+      .sidebar-second-level > li > a:hover,
+      .sidebar-third-level > li > a:focus,
+      .sidebar-third-level > li > a:hover {
+        text-decoration: none;
+      }
+
+      .sidebar-second-level > li > a {
+        padding-left: 1em; 
+      }
+
+      .sidebar-third-level > li > a {
+        padding-left: 2em; 
+      }
+
+      .navbar-collapse .navbar-nav > .nav-item.dropdown {
+
+        .nav-link {
+          position: relative;
+          min-width: 45px; 
+        }
+        
+      }
+
+    }
+
+  }
+
 }
 
 #mainNav .navbar-collapse .navbar-nav > .nav-item.dropdown > .nav-link:after {
