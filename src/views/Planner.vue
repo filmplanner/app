@@ -29,6 +29,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import * as types from '../store/types';
+import '../assets/js/time-slider';
 
 export default {
   computed: mapGetters({

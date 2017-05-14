@@ -19,9 +19,10 @@ export default {
 </script>
 
 <style lang="scss">
+@import './assets/css/variables.scss';
 
 body {
-  background: #292b2c; 
+  background: $bg-color-dark; 
   font-family: 'Roboto', sans-serif;
 }
 

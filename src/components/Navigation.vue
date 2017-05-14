@@ -3,11 +3,11 @@
         <button class="navbar-toggler navbar-toggler-left" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="#"><img src="../assets/logo-mobile.png" alt="Film Planner"></a>
+        <a class="navbar-brand" href="#"><img src="../assets/img/logo-mobile.png" alt="Film Planner"></a>
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="sidebar-nav navbar-nav">
                 <li class="nav-item nav-logo hidden-md-down">
-                  <a href="#"><img src="../assets/logo.png" alt="Film Planner"></a>
+                  <a href="#"><img src="../assets/img/logo.png" alt="Film Planner"></a>
                 </li>
                 <router-link tag="li" class="nav-item" to="/" exact-active-class="active">
                   <a class="nav-link"><i class="fa fa-fw fa-calendar-o"></i> Plannen</a>
@@ -49,21 +49,13 @@
 </template>
 
 <style lang="scss">
+@import '../assets/css/variables.scss';
+
 /*!
  * Start Bootstrap - SB Admin v4.0.0-alpha (http://startbootstrap.com/template-overviews/sb-admin)
  * Copyright 2013-2017 Start Bootstrap
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-sb-admin/blob/master/LICENSE)
  */
-
-$bg-color: #fff;
-$bg-color-dark: #171819;
-$nav-bg-color: #FFBD31;
-$nav-bg-color-hover: #FFCF67;
-$nav-bg-color-active: #DFA424;
-$nav-sub-bg-color: #FFBD31;
-$nav-text-color: #171819;
-$nav-text-color-hover: white;
-$nav-text-color-active: white;
 
 .bg-inverse {
   background: $bg-color-dark !important;
