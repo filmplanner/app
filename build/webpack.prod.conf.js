@@ -95,7 +95,9 @@ var webpackConfig = merge(baseWebpackConfig, {
       $ : "jquery",
       jQuery : "jquery",
       "window.jQuery" : "jquery",
-      "root.jQuery" : "jquery"
+      "root.jQuery" : "jquery",
+      Tether : "tether",
+      'window.Tether' : "tether"
     })
   ]
 })
