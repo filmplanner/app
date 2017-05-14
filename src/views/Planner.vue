@@ -92,10 +92,11 @@ export default {
   }
 
   .filter__time {
-    margin-top: 5px;
+    margin-top: 15px;
+    border: none;
 
     .noUi-connect {
-      background: $bg-color-dark;
+      background: $nav-bg-color-active;
       box-shadow: none;
     }
 
@@ -106,10 +107,20 @@ export default {
       bottom: -105%;
       background: $nav-bg-color-active;
       color: #fff;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.1s, opacity 0.3s linear;
     }
 
     .fa-clock-o:before {
       margin-right: 5px;
+    }
+  }
+
+  .filter__time:hover, .filter__time:active {
+    .noUi-tooltip {
+      visibility: visible;
+      opacity: 1;
     }
   }
 }
