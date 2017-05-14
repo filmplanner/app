@@ -10,10 +10,6 @@
             <input type="text" class="form-control filter__search" placeholder="Zoeken naar een film..">
           </div>
 
-           <div class="col">
-            Dag
-          </div>
-
           <div class="col">
             <div id="slider" class="filter__time"></div>
           </div>
@@ -35,6 +31,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import jQuery from 'jquery';
+import moment from 'moment';
 import 'nouislider/distribute/nouislider.min.css';
 import * as types from '../store/types';
 
@@ -51,13 +48,22 @@ export default {
       const slider = document.getElementById('slider');
 
       window.noUiSlider.create(slider, {
-        start: [20, 80],
+        start: [32400, 86400],
+        margin: 7200,
+        step: 1800,
         connect: true,
         range: {
-          min: 0,
-          max: 100,
+          min: 32400,
+          max: 86400,
         },
         tooltips: true,
+        format: {
+          to: (seconds) => {
+            const time = moment().startOf('day').add('seconds', seconds).format('HH:mm');
+            return `<i class="fa fa-clock-o">${time}</i>`;
+          },
+          from: Number,
+        },
       });
     });
   },
@@ -86,7 +92,25 @@ export default {
   }
 
   .filter__time {
-    margin-top: 30px;
+    margin-top: 5px;
+
+    .noUi-connect {
+      background: $bg-color-dark;
+      box-shadow: none;
+    }
+
+    .noUi-tooltip {
+      font-size: 13px;
+      padding: 1px 3px;
+      border: none;
+      bottom: -105%;
+      background: $nav-bg-color-active;
+      color: #fff;
+    }
+
+    .fa-clock-o:before {
+      margin-right: 5px;
+    }
   }
 }
 
